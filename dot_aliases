@@ -1,0 +1,71 @@
+# ------------------------------------------------------------------------------
+# Aliases
+#
+# Shortcuts for frequently used commands to speed up interactive shell usage.
+# Includes safer defaults for package management, command overrides, and
+# convenience wrappers for tools such as VirtualBox and system utilities.
+# Also defines small helper functions for routine maintenance tasks.
+# Intended for interactive shells only.
+# ------------------------------------------------------------------------------
+
+
+# VirtualBox
+# ------------------------------------------------------------
+alias vb='VBoxManage'
+
+
+# Shell
+# ------------------------------------------------------------
+alias ez='exec zsh'
+
+
+# Command Overrides
+# ------------------------------------------------------------
+alias bat='batcat'
+alias cat='batcat'
+alias l='eza -lha --group --group-directories-first --icons'
+alias ls='eza --group --group-directories-first --icons'
+alias ping='ping -c 4'
+alias vi='nvim'
+alias vim='nvim'
+
+# Amazon Q (Kiro CLI)
+alias kiro='kiro-cli'
+alias q='kiro-cli chat'
+
+
+# Package Management
+# --------------------------------------------------------------
+alias apt='sudo apt'
+alias apt-get='sudo apt-get'
+alias dpkg='sudo dpkg'
+
+alias apty='sudo apt install -y'
+alias aptr='sudo apt remove -y'
+
+
+# Command Functions
+# ------------------------------------------------------------
+
+# Update and clean APT packages
+aptu() {
+  sudo apt update
+  sudo apt upgrade -V
+  sudo apt autoclean
+  sudo apt autoremove -yV
+}
+
+# Zsh updates
+zsh_update() {
+  echo "Updating Oh My Zsh..."
+  ${ZSH}/tools/upgrade.sh
+
+  echo "Updating Powerlevel10k theme..."
+  git -C "${HOME}/.oh-my-zsh/custom/themes/powerlevel10k" pull
+
+  echo "Updating zsh-autosuggestions..."
+  git -C "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions" pull
+
+  echo "Updating zsh-syntax-highlighting..."
+  git -C "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" pull
+}
