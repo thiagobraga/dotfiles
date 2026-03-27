@@ -29,7 +29,19 @@ chezmoi init --apply thiagobraga/dotfiles
   - locales
   - apt update
   - apt upgrade
-  - Essential packages (bat, fzf, neovim, eza, etc.)
+  - Essential packages
+    - bat
+    - build-essential
+    - curl
+    - eza
+    - fzf
+    - git
+    - make
+    - neovim
+    - ripgrep
+    - vim
+    - wget
+    - zsh
   - Standardized color-coded logging
 - **Cross-Platform**
   - WSL detection
