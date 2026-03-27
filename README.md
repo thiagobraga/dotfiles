@@ -18,18 +18,22 @@ chezmoi init --apply thiagobraga/dotfiles
 ## What's included
 
 - **Shell**
-  - Zsh with Oh My Zsh framework
-  - Powerlevel10k theme with gitstatusd prefetching
+  - zsh
+  - oh-my-zsh
+  - powerlevel10k
 - **Plugins**
   - zsh-syntax-highlighting
   - zsh-autosuggestions
 - **Automation**
-  - Automated `apt` provisioning (sudoers, locales, update, upgrade)
-  - Essential package installation (bat, fzf, neovim, eza, etc.)
-  - Standardized color-coded logging via `utils.sh`
+  - sudoers
+  - locales
+  - apt update
+  - apt upgrade
+  - Essential packages (bat, fzf, neovim, eza, etc.)
+  - Standardized color-coded logging
 - **Cross-Platform**
-  - WSL detection and conditional logic
-  - Managed Windows Terminal `settings.json` (Windows only)
+  - WSL detection
+  - Windows Terminal settings
 - **Standards**
-  - EditorConfig for consistent 2-space indentation
-  - AGENTS.md for global AI instruction consistency
+  - EditorConfig
+  - AGENTS.md
