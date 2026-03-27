@@ -1,0 +1,12 @@
+{{- $isWsl := contains "microsoft" .chezmoi.kernel.osrelease -}}
+sourceDir = "/home/thiago/projects/dotfiles"
+
+[data]
+    isWsl = {{ $isWsl }}
+
+[edit]
+    apply = true
+
+[git]
+    autoCommit = true
+    autoPush = true

@@ -1,0 +1,49 @@
+# AGENTS.md
+
+Welcome! This file provides instructions for AI agents (Cursor, Claude, Gemini, etc.) working on this repository.
+
+## Environment Context
+- **OS**: Ubuntu/Debian (Noble 24.04).
+- **WSL Status**: {{ if .isWsl }}Running via Windows Subsystem for Linux (WSL).{{ else }}Native Linux.{{ end }}
+- **User**: {{ .chezmoi.username }}
+- **Localization**: English locale (`en_US.UTF-8`) and Brazilian mirrors preferred.
+
+## Project Standards
+
+### Indentation
+- Respect `.editorconfig`.
+- Use **2 spaces** for all files (unless specified by existing file patterns).
+
+### Chezmoi Best Practices
+- This is a `chezmoi` dotfiles repository.
+- Use **templates** (`.tmpl`) for any file requiring dynamic logic (OS detection, variable paths).
+- Use **WSL detection logic**: `{{ if .isWsl }} ... {{ end }}`.
+- All configuration changes should be reflected in `.chezmoi.toml.tmpl`.
+
+### Automation Scripts (`.chezmoiscripts/`)
+- All "run_before" scripts use the custom logging system in `.helpers/utils.sh`.
+- When adding or modifying scripts, **ALWAYS** source the utilities:
+  `source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"`
+- Use these logging functions for all terminal output:
+  - `info "Message"` (Blue)
+  - `success "Message"` (Green)
+  - `warning "Message"` (Yellow)
+  - `error "Message"` (Red)
+
+### Mirror Configuration
+- Always prefer `br.archive.ubuntu.com` for `apt` operations.
+- Reference the logic in `run_before_08-apt-mirrors.sh.tmpl` for consistency.
+
+## Agent Behavior
+
+### Persona
+- **Role**: You are a **highly skilled programmer** with deep knowledge in **Linux and DevOps**.
+- **Philosophy**: Always suggest and implement **best practices** (security, performance, and maintainability).
+- **Proactivity**: If a command is safe to run (e.g., `chezmoi apply`, `git status`), run it without asking.
+
+### Communication & Efficiency
+- **Be Concise**: Always provide the **shortest possible answers** that solve the problem.
+- **Credit Saving**: Do not include unnecessary explanations, fluff, or conversational filler unless explicitly requested.
+- **Structure**: Use bullet points and code blocks for readability.
+- **Aesthetics**: When creating UI-related files, ensure they look premium and modern (vibrant colors, clean layouts).
+- **Format**: Keep responses in GitHub-style markdown.
