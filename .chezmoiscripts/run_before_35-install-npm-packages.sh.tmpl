@@ -1,0 +1,16 @@
+#!/bin/bash
+
+{{ if eq .chezmoi.os "linux" }}
+
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+export NVM_DIR="$HOME/.nvm"
+
+info "Installing npm global packages..."
+npm i -g \
+  @anthropic/claude-code \
+  openclaw \
+  opencode-ai
+success "NPM packages installed successfully."
+
+{{ end }}
