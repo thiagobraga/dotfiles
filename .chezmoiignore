@@ -5,3 +5,4 @@ AppData/**
 .oh-my-zsh/cache/**
 **/*.zwc
 README.md
+.editorconfig
