@@ -20,23 +20,21 @@ ZSH_PROFILER=false
 [[ "$ZSH_PROFILER" = true ]] && zmodload zsh/zprof || true
 
 
-# 2. Shell locale and editor settings
+# 2. Import optional environment variables
 # ------------------------------------------------------------
+[[ -e "${HOME}/.env" ]] && source "${HOME}/.env"
+
+
+# 3. Shell locale and editor settings
+# ------------------------------------------------------------
+export EDITOR='nvim'
 export LANG='en_US.UTF-8'
 export LANGUAGE='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
-
 export TERM='xterm-256color'
-export EDITOR='nvim'
+{{- if not .isServer }}
 export VISUAL='/usr/bin/code'
-
-
-# 3. PATH overrides
-# ------------------------------------------------------------
-# Check if the directory exists in PATH and add if it's not
-add_to_path() { [[ ":${PATH}:" != *":${1}:"* ]] && export PATH="${1}:${PATH}" || true; }
-
-add_to_path "${HOME}/.local/bin"
+{{- end }}
 
 
 # 4. Zsh behavior options
@@ -55,19 +53,12 @@ unsetopt HIST_BEEP             # Disable beep when history search fails
 # 5. Oh My Zsh configuration
 # ------------------------------------------------------------
 export ZSH="${HOME}/.oh-my-zsh"
-export ZSH_THEME='powerlevel10k/powerlevel10k'
+export ZSH_THEME="${ZSH_THEME:-powerlevel10k/powerlevel10k}"
 export ZSH_DISABLE_COMPFIX=true
 export DISABLE_AUTO_UPDATE=true
 export DISABLE_MAGIC_FUNCTIONS=true
 export COMPINIT_CACHE_DIR=/tmp
-
-export plugins=(
-  git
-  zsh-syntax-highlighting
-  zsh-autosuggestions
-  docker-compose
-  docker
-)
+export plugins=(git nvm zsh-syntax-highlighting zsh-autosuggestions)
 
 
 # 6. Load theme and framework
@@ -76,22 +67,36 @@ export plugins=(
 [[ -e "${ZSH}/oh-my-zsh.sh" ]] && source "${ZSH}/oh-my-zsh.sh"
 
 
-# 7. Import optional environment variables
-# ------------------------------------------------------------
-[[ -e "${HOME}/.env" ]] && source "${HOME}/.env"
-
-
-# 8. Load custom aliases
+# 7. Load custom aliases
 # ------------------------------------------------------------
 [[ -e "${HOME}/.aliases" ]] && source "${HOME}/.aliases"
 
 
+# 8. Development Tools (NVM, Bun, etc.)
+# ------------------------------------------------------------
+# NVM (Node Version Manager)
+export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Bun
+export BUN_INSTALL="$HOME/.bun"
+
+
+# 9. PATH overrides
+# ------------------------------------------------------------
+# Check if the directory exists in PATH and add if it's not
+add_to_path() { [[ ":${PATH}:" != *":${1}:"* ]] && export PATH="${1}:${PATH}" || true; }
+
+add_to_path "${HOME}/.local/bin"
+add_to_path "$BUN_INSTALL/bin"
+
+
 # 10. Project environment variables
 # ------------------------------------------------------------
-export PROJECTS_DIR="${HOME}/projects"             # Define projects dir
+export PROJECTS_DIR="${HOME}/projects"
 
 
 # 11. Uncomment this block to show profiling results
 # ------------------------------------------------------------
 [[ "$ZSH_PROFILER" = true ]] && zprof || true
-
