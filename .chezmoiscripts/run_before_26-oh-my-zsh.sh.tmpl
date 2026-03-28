@@ -8,5 +8,7 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --skip-chsh
   success "Oh My Zsh installed successfully!"
 else
-  success "Oh My Zsh is already installed."
+  info "Oh My Zsh is already installed. Updating..."
+  ZSH=$HOME/.oh-my-zsh sh $HOME/.oh-my-zsh/tools/upgrade.sh --non-interactive
+  success "Oh My Zsh updated successfully."
 fi

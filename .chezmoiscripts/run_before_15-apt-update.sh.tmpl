@@ -1,15 +1,12 @@
 #!/bin/bash
 
 {{ if eq .chezmoi.os "linux" }}
-{{ if or (eq .chezmoi.osRelease.id "ubuntu") (eq .chezmoi.osRelease.id "debian") }}
-
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
-
 info "Updating apt repositories..."
+
 sudo apt-get update > /dev/null
 info "Upgrading installed apt packages..."
 sudo apt-get upgrade -y > /dev/null
-success "Packages are successfully updated and upgraded!"
 
-{{ end }}
+success "Packages are successfully updated and upgraded!"
 {{ end }}

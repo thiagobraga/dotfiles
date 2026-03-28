@@ -1,15 +1,13 @@
 #!/bin/bash
 
 {{ if eq .chezmoi.os "linux" }}
-
 SUDOERS_FILE="/etc/sudoers.d/{{ .chezmoi.username }}"
-
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
-
 info "Configuring passwordless sudo for {{ .chezmoi.username }}..."
-echo "{{ .chezmoi.username }} ALL=(ALL:ALL) NOPASSWD:ALL" | sudo tee "$SUDOERS_FILE" > /dev/null
+
+echo "{{ .chezmoi.username }} ALL=(ALL:ALL) NOPASSWD:ALL" | sudo tee "$SUDOERS_FILE"
 info "Securing file permissions for sudoers.d..."
 sudo chmod 0440 "$SUDOERS_FILE"
-success "Passwordless sudo configured!"
 
+success "Passwordless sudo configured!"
 {{ end }}

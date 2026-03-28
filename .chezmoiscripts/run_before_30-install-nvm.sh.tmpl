@@ -1,9 +1,7 @@
 #!/bin/bash
 
 {{ if eq .chezmoi.os "linux" }}
-
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
-
 export NVM_DIR="$HOME/.nvm"
 
 info "Installing NVM (Node Version Manager)..."
@@ -16,6 +14,6 @@ info "Loading NVM..."
 info "Installing LTS version of Node.js..."
 nvm install --lts
 nvm use --lts
-success "LTS Node.js installed and set as default."
 
+success "LTS Node.js installed and set as default."
 {{ end }}

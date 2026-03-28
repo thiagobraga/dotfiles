@@ -1,0 +1,15 @@
+#!/bin/bash
+
+{{ if eq .chezmoi.os "linux" }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+if ! command -v bun &> /dev/null; then
+  info "Installing Bun..."
+  curl -fsSL https://bun.sh/install | bash
+  success "Bun installed successfully."
+else
+  info "Bun is already installed. Updating..."
+  bun upgrade
+  success "Bun updated successfully."
+fi
+{{ end }}
