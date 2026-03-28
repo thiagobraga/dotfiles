@@ -1,0 +1,26 @@
+#!/bin/bash
+
+{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "debian") }}
+
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+info "Installing essential apt packages for Debian..."
+
+sudo apt-get install -y \
+  bat \
+  curl \
+  eza \
+  fzf \
+  git \
+  make \
+  neovim \
+  ripgrep \
+  {{- if .isDesktop }} terminator \ {{- end }}
+  vim \
+  wget \
+  zsh \
+  > /dev/null
+
+success "Essential packages installed successfully!"
+
+{{ end }}

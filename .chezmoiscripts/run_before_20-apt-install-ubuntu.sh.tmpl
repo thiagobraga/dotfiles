@@ -1,0 +1,27 @@
+#!/bin/bash
+
+{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "ubuntu") }}
+
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+info "Installing essential apt packages..."
+
+sudo apt-get install -y \
+  bat \
+  build-essential \
+  curl \
+  eza \
+  fzf \
+  git \
+  make \
+  neovim \
+  ripgrep \
+  {{- if .isDesktop }} terminator \ {{- end }}
+  vim \
+  wget \
+  zsh \
+  > /dev/null
+
+success "Essential packages installed successfully!"
+
+{{ end }}
