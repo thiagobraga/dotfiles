@@ -1,0 +1,32 @@
+#!/bin/bash
+
+{{ if eq .chezmoi.os "linux" }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+PLUGINS_DIR="$ZSH_CUSTOM/plugins"
+
+# List of plugins to manage with git
+# Format: "plugin_name|git_repo_url"
+plugins=(
+  "zsh-syntax-highlighting|https://github.com/zsh-users/zsh-syntax-highlighting.git"
+  "zsh-autosuggestions|https://github.com/zsh-users/zsh-autosuggestions.git"
+)
+
+mkdir -p "$PLUGINS_DIR"
+
+for plugin_info in "${plugins[@]}"; do
+  IFS="|" read -r name url <<< "$plugin_info"
+  target_dir="$PLUGINS_DIR/$name"
+
+  if [ ! -d "$target_dir" ]; then
+    info "Installing plugin: $name..."
+    git clone "$url" "$target_dir"
+    success "Plugin $name installed."
+  else
+    info "Updating plugin: $name..."
+    git -C "$target_dir" pull
+    success "Plugin $name updated."
+  fi
+done
+{{ end }}

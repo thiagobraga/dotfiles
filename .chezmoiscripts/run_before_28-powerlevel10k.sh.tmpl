@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Source utilities if they exist
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+THEMES_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes"
+TARGET_DIR="$THEMES_DIR/powerlevel10k"
+
+mkdir -p "$THEMES_DIR"
+
+if [ ! -d "$TARGET_DIR" ]; then
+  info "Installing Powerlevel10k theme..."
+  git clone https://github.com/romkatv/powerlevel10k.git "$TARGET_DIR"
+  success "Powerlevel10k theme installed."
+else
+  info "Updating Powerlevel10k theme..."
+  git -C "$TARGET_DIR" pull
+  success "Powerlevel10k theme updated."
+fi
