@@ -4,9 +4,10 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Updating apt repositories..."
 
-sudo apt-get update > /dev/null
+run sudo apt-get update > /dev/null
+
 info "Upgrading installed apt packages..."
-sudo apt-get upgrade -y > /dev/null
+run sudo apt-get upgrade -y > /dev/null
 
 success "Packages are successfully updated and upgraded!"
 {{ end }}

@@ -2,11 +2,12 @@
 
 {{ if .isLinux }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
 info "Installing bun global packages..."
 
-bun add -g \
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+run bun add -g \
   @anthropic-ai/claude-code \
   browser-sync \
   n8n \
@@ -15,5 +16,13 @@ bun add -g \
   vercel \
   yarn
 
-success "bun packages installed successfully."
+run bun -v
+run claude -v
+run browser-sync --version
+run n8n -v
+run openclaw -v
+run opencode -v
+run vercel -v
+run yarn -v
+success
 {{ end }}

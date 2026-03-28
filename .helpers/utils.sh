@@ -16,6 +16,7 @@ success() { printf "${GREEN}[done]${NC} %s\n\n" "${1:-}"; }
 warning() { printf "${YELLOW}[warning]${NC} %s\n\n" "${1:-}"; }
 error() { printf "${RED}[error]${NC} %s\n\n" "${1:-}"; }
 
+# Silently disable tracing if it was active, run the command, then re-enable.
 silent() {
   { set +x; } 2>/dev/null
   "$@"
@@ -23,7 +24,7 @@ silent() {
 }
 
 # Run a single command with tracing (set -x) ON, then disable tracing afterward.
-trace() {
+run() {
   set -x
   "$@"
   { set +x; } 2>/dev/null

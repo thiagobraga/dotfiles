@@ -4,7 +4,7 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Installing essential apt packages for Debian..."
 
-sudo apt-get install -y \
+run sudo apt-get install -y \
   bat \
   curl \
   eza \

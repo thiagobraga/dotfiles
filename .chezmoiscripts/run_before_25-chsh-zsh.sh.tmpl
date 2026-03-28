@@ -4,7 +4,7 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Setting zsh as default shell..."
 
-sudo chsh -s "$(which zsh)" "{{ .chezmoi.username }}"
+run sudo chsh -s "$(which zsh)" "{{ .chezmoi.username }}"
 
 success "zsh set as the default shell"
 {{ end }}

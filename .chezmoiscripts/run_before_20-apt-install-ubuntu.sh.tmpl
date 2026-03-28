@@ -4,7 +4,7 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Installing essential apt packages..."
 
-sudo apt-get install -y \
+run sudo apt-get install -y \
   bat \
   build-essential \
   curl \

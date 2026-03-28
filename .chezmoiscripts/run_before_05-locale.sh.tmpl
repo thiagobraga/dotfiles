@@ -7,10 +7,10 @@ info "Verifying system locale settings..."
 if ! locale -a | grep -i -q 'en_US.utf8'; then
   warning "en_US.UTF-8 locale not found. Fixing now..."
   info "Generating en_US.UTF-8 locale..."
-  sudo locale-gen en_US.UTF-8
+  run sudo locale-gen en_US.UTF-8
   info "Updating system default locales..."
-  sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+  run sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 fi
 
-success "en_US.UTF-8 locale installed and available."
+success
 {{ end }}

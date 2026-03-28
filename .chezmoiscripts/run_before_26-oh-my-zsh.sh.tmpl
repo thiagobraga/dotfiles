@@ -1,14 +1,16 @@
 #!/bin/bash
 
+{{ if .isLinux }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   info "Installing Oh My Zsh..."
   OHMYZSH_URL=https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-  sh -c "$(curl -fsSL $OHMYZSH_URL)" "" --keep-zshrc --unattended
-  success "Oh My Zsh installed successfully!"
+  run sh -c "$(curl -fsSL $OHMYZSH_URL)" "" --keep-zshrc --unattended
 else
   info "Oh My Zsh is already installed. Updating..."
-  git -C $HOME/.oh-my-zsh pull
-  success "Oh My Zsh updated successfully."
+  run git -C $HOME/.oh-my-zsh pull
 fi
+
+success
+{{ end }}
