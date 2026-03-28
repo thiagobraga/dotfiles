@@ -7,6 +7,7 @@ source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Setting up Brazilian apt mirrors..."
 
+{{ if eq .chezmoi.osRelease.id "ubuntu" }}
 if [ -f "/etc/apt/sources.list.d/ubuntu.sources" ]; then
   if grep -q "br.archive.ubuntu.com" /etc/apt/sources.list.d/ubuntu.sources; then
     success "Brazilian mirrors already configured."
@@ -30,6 +31,14 @@ Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 EOF
   success "Created ubuntu.sources with Brazilian mirrors."
 fi
+{{ else if eq .chezmoi.osRelease.id "debian" }}
+sudo tee /etc/apt/sources.list >/dev/null <<EOF
+deb http://ftp.br.debian.org/debian bookworm main contrib non-free non-free-firmware
+deb http://ftp.br.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
+deb http://security.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware
+EOF
+success "Brazilian mirrors configured for Debian."
+{{ end }}
 
 {{ end }}
 {{ end }}
