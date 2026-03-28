@@ -1,0 +1,36 @@
+#!/bin/bash
+
+{{ if eq .chezmoi.os "linux" }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+export NVM_DIR="$HOME/.nvm"
+
+if [ ! -d "$NVM_DIR" ]; then
+  info "Installing NVM (Node Version Manager)..."
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+else
+  info "NVM is already installed in $NVM_DIR. Attempting to update..."
+  if [ -d "$NVM_DIR/.git" ]; then
+    info "Updating NVM via git..."
+    (
+      cd "$NVM_DIR"
+      git fetch --tags origin
+      latest_tag=$(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))
+      info "Checking out version $latest_tag..."
+      git checkout "$latest_tag" --quiet
+    )
+  else
+    info "Not a git repository. Updating via curl installer..."
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+  fi
+fi
+success "NVM handled successfully."
+
+info "Loading NVM..."
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+info "Installing LTS version of Node.js..."
+nvm install --lts
+nvm use --lts
+
+success "LTS Node.js installed and set as default."
+{{ end }}
