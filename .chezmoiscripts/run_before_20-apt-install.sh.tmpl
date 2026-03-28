@@ -9,19 +9,15 @@ info "Installing essential apt packages..."
 
 sudo apt-get install -y \
   bat \
-  build-essential \
+  {{- if eq .chezmoi.osRelease.id "ubuntu" }} build-essential \ {{- end }}
   curl \
-  {{- if eq .chezmoi.osRelease.id "ubuntu" }}
-  eza \
-  {{- end }}
+  {{- if eq .chezmoi.osRelease.id "ubuntu" }} eza \ {{- end }}
   fzf \
   git \
   make \
   neovim \
   ripgrep \
-  {{- if not .isWsl }}
-  terminator \
-  {{- end }}
+  {{- if not .isWsl }} terminator \ {{- end }}
   vim \
   wget \
   zsh \
