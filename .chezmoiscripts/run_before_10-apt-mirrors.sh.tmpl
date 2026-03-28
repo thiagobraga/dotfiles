@@ -8,6 +8,7 @@ source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Setting up Brazilian apt mirrors..."
 
 if [ -f "/etc/apt/sources.list.d/ubuntu.sources" ]; then
+  grep
   sudo sed -i 's|URIs: http://[^ ]*|URIs: http://br.archive.ubuntu.com/ubuntu|' /etc/apt/sources.list.d/ubuntu.sources
   success "Brazilian mirrors configured successfully!"
 else
