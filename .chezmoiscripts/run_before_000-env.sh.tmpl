@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# This script runs early to display the detected system environment.
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+info "========================================"
+info "Chezmoi System Environment"
+info "========================================"
+info "  isLinux    : {{ .isLinux }}"
+info "  isUbuntu   : {{ .isUbuntu }}"
+info "  isDebian   : {{ .isDebian }}"
+info "  isWsl      : {{ .isWsl }}"
+info "  isDesktop  : {{ .isDesktop }}"
+info "  isServer   : {{ .isServer }}"
+info "========================================"
