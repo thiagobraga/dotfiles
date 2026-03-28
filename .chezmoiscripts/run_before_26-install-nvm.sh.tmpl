@@ -1,0 +1,27 @@
+#!/bin/bash
+
+{{ if eq .chezmoi.os "linux" }}
+{{ if or (eq .chezmoi.osRelease.id "ubuntu") (eq .chezmoi.osRelease.id "debian") }}
+
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+export NVM_DIR="$HOME/.nvm"
+
+if [ ! -d "$NVM_DIR" ]; then
+  info "Installing NVM (Node Version Manager)..."
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+  success "NVM installed successfully."
+else
+  success "NVM is already installed."
+fi
+
+info "Loading NVM..."
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+info "Installing LTS version of Node.js..."
+nvm install --lts
+nvm use --lts
+success "LTS Node.js installed and set as default."
+
+{{ end }}
+{{ end }}
