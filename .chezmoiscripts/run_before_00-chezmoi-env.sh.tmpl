@@ -7,12 +7,12 @@ info "========================================"
 info "thiagobraga dotfiles"
 info "========================================"
 echo
-info "  isLinux:   $(status {{ .isLinux }})"
-info "  isUbuntu:  $(status {{ .isUbuntu }})"
-info "  isDebian:  $(status {{ .isDebian }})"
-info "  isWsl:     $(status {{ .isWsl }})"
-info "  isDesktop: $(status {{ .isDesktop }})"
-info "  isServer:  $(status {{ .isServer }})"
+printf "${GRAY}  isLinux:   $(status {{ .isLinux }})\n"
+printf "${GRAY}  isUbuntu:  $(status {{ .isUbuntu }})\n"
+printf "${GRAY}  isDebian:  $(status {{ .isDebian }})\n"
+printf "${GRAY}  isWsl:     $(status {{ .isWsl }})\n"
+printf "${GRAY}  isDesktop: $(status {{ .isDesktop }})\n"
+printf "${GRAY}  isServer:  $(status {{ .isServer }})\n${NC}"
 echo
 info "========================================"
 echo
