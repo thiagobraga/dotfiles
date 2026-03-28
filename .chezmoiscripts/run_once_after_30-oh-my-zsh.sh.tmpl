@@ -1,0 +1,12 @@
+#!/bin/bash
+
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  info "Installing Oh My Zsh..."
+  rm -f ~/.zshrc
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --skip-chsh
+  success "Oh My Zsh installed successfully!"
+else
+  success "Oh My Zsh is already installed."
+fi
