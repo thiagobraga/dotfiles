@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Source utils for logging
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+P10K_INSTALL_SCRIPT="$HOME/.oh-my-zsh/custom/themes/powerlevel10k/gitstatus/install"
+
+if [ -f "$P10K_INSTALL_SCRIPT" ]; then
+  info "Prefetching gitstatusd for Powerlevel10k..."
+  # Execute the installer script provided by p10k
+  "$P10K_INSTALL_SCRIPT" && success "gitstatusd prefetched successfully!" || error "Failed to prefetch gitstatusd."
+else
+  warning "Powerlevel10k installation not found. Skipping gitstatusd prefetch."
+fi
