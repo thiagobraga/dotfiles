@@ -8,7 +8,6 @@ BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
 GRAY='\033[0;90m'
-DARK_GRAY='\033[1;30m'
 PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
@@ -19,13 +18,7 @@ warning() { printf "${YELLOW}[warning]${NC} %s\n\n" "${1:-}"; }
 error()   { printf "${RED}[error]${NC} %s\n\n" "${1:-}"; }
 
 # Returns a colored string based on boolean input
-status() {
-  if [ "${1}" == "true" ]; then
-    printf "${BOLD_GREEN}true${NC}"
-  else
-    printf "${RED}false${NC}"
-  fi
-}
+status() { [[ "${1}" == "true" ]] && printf "${BOLD_GREEN}true${NC}" || printf "${RED}false${NC}"; }
 
 # Run a command or heredoc script with tracing (set -x style)
 run() {
