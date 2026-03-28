@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="chezmoi.png" width="100" />
+  <img src=".helpers/chezmoi.png" width="100" />
   <br>
   dotfiles
 </h1>
@@ -11,8 +11,7 @@ My personal dotfiles managed with [chezmoi](https://www.chezmoi.io/).
 Run this command on a new machine:
 
 ```bash
-sh -c "$(curl -fsLS get.chezmoi.io/lb)"
-chezmoi init --apply thiagobraga/dotfiles
+sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply thiagobraga -S ~/projects/dotfiles
 ```
 
 ## What's included
