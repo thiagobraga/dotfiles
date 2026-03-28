@@ -3,3 +3,4 @@ AppData/**
 {{ end }}
 
 .oh-my-zsh/cache/**
+**/*.zwc
