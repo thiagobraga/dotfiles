@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "ubuntu") }}
+{{ if .isUbuntu }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Installing essential apt packages..."
 

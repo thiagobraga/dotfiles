@@ -1,4 +1,23 @@
-{{ $isWsl := contains "microsoft" .chezmoi.kernel.osrelease }}
+# =============================================================================
+# OS Detection
+# =============================================================================
+{{ $isLinux := eq .chezmoi.os "linux" }}
+{{ $isUbuntu := false }}
+{{ $isDebian := false }}
+{{ if $isLinux }}
+{{   if hasKey .chezmoi.osRelease "id" }}
+{{     $isUbuntu = eq .chezmoi.osRelease.id "ubuntu" }}
+{{     $isDebian = eq .chezmoi.osRelease.id "debian" }}
+{{   end }}
+{{ end }}
+
+# =============================================================================
+# System Environment Detection (WSL, Desktop, Server)
+# =============================================================================
+{{ $isWsl := false }}
+{{ if hasKey .chezmoi.kernel "osrelease" }}
+{{   $isWsl = contains "microsoft" .chezmoi.kernel.osrelease }}
+{{ end }}
 {{ $isDesktop := false }}
 {{ if and (not $isWsl) (or (lookPath "gnome-shell") (lookPath "gnome-session") (lookPath "plasmashell") (lookPath "xfce4-session") (lookPath "sway") (lookPath "i3")) }}
   {{ $isDesktop = true -}}
@@ -6,6 +25,9 @@
 {{ $isServer := and (not $isWsl) (not $isDesktop) }}
 
 [data]
+  isLinux = {{ $isLinux }}
+  isUbuntu = {{ $isUbuntu }}
+  isDebian = {{ $isDebian }}
   isWsl = {{ $isWsl }}
   isDesktop = {{ $isDesktop }}
   isServer = {{ $isServer }}

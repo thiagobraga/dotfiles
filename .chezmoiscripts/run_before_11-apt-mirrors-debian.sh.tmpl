@@ -1,8 +1,8 @@
 #!/bin/bash
 
-{{ if eq .chezmoi.osRelease.id "debian" }}
+{{ if .isDebian }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
-info "Setting up Brazilian apt mirrors for Debian..."
+info "$(warning '[Debian]') Setting up Brazilian apt mirrors for Debian..."
 
 sudo tee /etc/apt/sources.list >/dev/null <<EOF
 deb http://ftp.br.debian.org/debian bookworm main contrib non-free non-free-firmware

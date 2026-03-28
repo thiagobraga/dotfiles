@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "debian") }}
+{{ if .isDebian }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Installing essential apt packages for Debian..."
 

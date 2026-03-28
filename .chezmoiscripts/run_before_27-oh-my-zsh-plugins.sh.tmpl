@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if eq .chezmoi.os "linux" }}
+{{ if .isLinux }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
