@@ -1,7 +1,14 @@
 {{- $isWsl := contains "microsoft" .chezmoi.kernel.osrelease -}}
+{{- $isDesktop := false -}}
+{{- if and (not $isWsl) (or (lookPath "gnome-shell") (lookPath "gnome-session") (lookPath "plasmashell") (lookPath "xfce4-session") (lookPath "sway") (lookPath "i3")) -}}
+{{-   $isDesktop = true -}}
+{{- end -}}
+{{- $isServer := and (not $isWsl) (not $isDesktop) -}}
 
 [data]
   isWsl = {{ $isWsl }}
+  isDesktop = {{ $isDesktop }}
+  isServer = {{ $isServer }}
 
 [edit]
   apply = true
