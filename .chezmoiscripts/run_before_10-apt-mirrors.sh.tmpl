@@ -8,11 +8,27 @@ source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Setting up Brazilian apt mirrors..."
 
 if [ -f "/etc/apt/sources.list.d/ubuntu.sources" ]; then
-  grep
-  sudo sed -i 's|URIs: http://[^ ]*|URIs: http://br.archive.ubuntu.com/ubuntu|' /etc/apt/sources.list.d/ubuntu.sources
-  success "Brazilian mirrors configured successfully!"
+  if grep -q "br.archive.ubuntu.com" /etc/apt/sources.list.d/ubuntu.sources; then
+    success "Brazilian mirrors already configured."
+  else
+    sudo sed -i 's|URIs: http://[^ ]*|URIs: http://br.archive.ubuntu.com/ubuntu|' /etc/apt/sources.list.d/ubuntu.sources
+    success "Brazilian mirrors configured successfully!"
+  fi
 else
-  success "Brazilian mirrors already configured or ubuntu.sources not found."
+  sudo tee /etc/apt/sources.list.d/ubuntu.sources > /dev/null << 'EOF'
+Types: deb
+URIs: http://br.archive.ubuntu.com/ubuntu
+Suites: noble noble-updates noble-backports
+Components: main universe restricted multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+Types: deb
+URIs: http://br.archive.ubuntu.com/ubuntu
+Suites: noble-security
+Components: main universe restricted multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+EOF
+  success "Created ubuntu.sources with Brazilian mirrors."
 fi
 
 {{ end }}
