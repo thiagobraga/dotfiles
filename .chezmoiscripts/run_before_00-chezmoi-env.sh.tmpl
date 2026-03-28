@@ -4,13 +4,13 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "========================================"
-info "Chezmoi System Environment"
+info "thiagobraga dotfiles"
 info "========================================"
-info "  isLinux:   {{ .isLinux }}"
-info "  isUbuntu:  {{ .isUbuntu }}"
-info "  isDebian:  {{ .isDebian }}"
-info "  isWsl:     {{ .isWsl }}"
-info "  isDesktop: {{ .isDesktop }}"
-info "  isServer:  {{ .isServer }}"
-info "========================================"
-info
+echo
+echo "  isLinux:   $(status {{ .isLinux }})"
+echo "  isUbuntu:  $(status {{ .isUbuntu }})"
+echo "  isDebian:  $(status {{ .isDebian }})"
+echo "  isWsl:     $(status {{ .isWsl }})"
+echo "  isDesktop: $(status {{ .isDesktop }})"
+echo "  isServer:  $(status {{ .isServer }})"
+echo

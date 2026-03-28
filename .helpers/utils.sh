@@ -3,6 +3,7 @@ set -e
 
 # ANSI color codes
 GREEN='\033[0;32m'
+BOLD_GREEN='\033[1;32m'
 BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
@@ -17,6 +18,16 @@ success() { printf "${GREEN}[done]${NC} %s\n\n" "${1:-}"; }
 warning() { printf "${YELLOW}[warning]${NC} %s\n\n" "${1:-}"; }
 error()   { printf "${RED}[error]${NC} %s\n\n" "${1:-}"; }
 
+# Returns a colored string based on boolean input
+status() {
+  if [ "${1}" == "true" ]; then
+    printf "${BOLD_GREEN}true${NC}"
+  else
+    printf "${RED}false${NC}"
+  fi
+}
+
+# Run a command or heredoc script with tracing (set -x style)
 run() {
   local exit_code=0
   printf "${GRAY}"

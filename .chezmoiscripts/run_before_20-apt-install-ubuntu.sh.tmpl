@@ -4,7 +4,8 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Installing essential apt packages..."
 
-run sudo apt-get install -y \
+run <<EOF
+sudo apt-get install -y \
   bat \
   build-essential \
   curl \
@@ -19,6 +20,7 @@ run sudo apt-get install -y \
   wget \
   zsh \
   > /dev/null
+EOF
 
-success "Essential packages installed successfully!"
+success
 {{ end }}
