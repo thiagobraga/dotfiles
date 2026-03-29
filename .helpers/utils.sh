@@ -5,14 +5,15 @@ set -e
 NC='\033[0m' # No Color
 
 # Regular Colors
-BLACK='\033[0;30m'  # #000000
-RED='\033[0;31m'    # #800000
-GREEN='\033[0;32m'  # #008000
-YELLOW='\033[0;33m' # #808000
-BLUE='\033[0;34m'   # #000080
-PURPLE='\033[0;35m' # #800080
-CYAN='\033[0;36m'   # #008080
-WHITE='\033[0;37m'  # #C0C0C0
+BLACK='\033[0;30m'      # #000000
+RED='\033[0;31m'        # #800000
+GREEN='\033[0;32m'      # #008000
+YELLOW='\033[0;33m'     # #808000
+BLUE='\033[0;34m'       # #000080
+PURPLE='\033[0;35m'     # #800080
+CYAN='\033[0;36m'       # #008080
+WHITE='\033[0;37m'      # #C0C0C0
+ORANGE='\x1b[38;5;172m' # #d7875f
 
 # Bold
 BBLACK='\033[1;30m'  # #808080
@@ -77,7 +78,7 @@ ON_IWHITE='\033[0;107m'  # #FFFFFF
 # Displays a preview of all defined colors
 colors() {
   local color_names=(
-    "BLACK" "RED" "GREEN" "YELLOW" "BLUE" "PURPLE" "CYAN" "WHITE"
+    "BLACK" "RED" "GREEN" "YELLOW" "BLUE" "PURPLE" "CYAN" "WHITE" "ORANGE"
     "BBLACK" "BRED" "BGREEN" "BYELLOW" "BBLUE" "BPURPLE" "BCYAN" "BWHITE"
     "IBLACK" "IRED" "IGREEN" "IYELLOW" "IBLUE" "IPURPLE" "ICYAN" "IWHITE"
     "BIBLACK" "BIRED" "BIGREEN" "BIYELLOW" "BIBLUE" "BIPURPLE" "BICYAN" "BIWHITE"
