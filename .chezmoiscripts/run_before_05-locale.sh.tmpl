@@ -4,20 +4,13 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Verifying system locale settings..."
 
-if locale -a | grep -i -q 'en_US.utf8'; then
-  success
-  exit 0
-fi
-
-warning "en_US.UTF-8 locale not found. Fixing now..."
 info "Generating en_US.UTF-8 locale..."
 run <<EOF
 sudo locale-gen en_US.UTF-8
 EOF
 info "Updating system default locales..."
 run <<EOF
-# sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
-sudo update-locale
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 EOF
 
 success

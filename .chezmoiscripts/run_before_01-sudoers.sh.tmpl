@@ -5,7 +5,6 @@ source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 SUDOERS_FILE="/etc/sudoers.d/{{ .chezmoi.username }}"
 
 info "Configuring passwordless sudo for {{ .chezmoi.username }}..."
-printf "${YELLOW}"
 run <<EOF
 echo "{{ .chezmoi.username }} ALL=(ALL:ALL) NOPASSWD:ALL" | sudo tee "$SUDOERS_FILE"
 EOF

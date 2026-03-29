@@ -74,10 +74,24 @@ ON_IPURPLE='\033[0;105m' # #FF00FF
 ON_ICYAN='\033[0;106m'   # #00FFFF
 ON_IWHITE='\033[0;107m'  # #FFFFFF
 
+# Displays a preview of all defined colors
+colors() {
+  local color_names=(
+    "BLACK" "RED" "GREEN" "YELLOW" "BLUE" "PURPLE" "CYAN" "WHITE"
+    "BBLACK" "BRED" "BGREEN" "BYELLOW" "BBLUE" "BPURPLE" "BCYAN" "BWHITE"
+    "IBLACK" "IRED" "IGREEN" "IYELLOW" "IBLUE" "IPURPLE" "ICYAN" "IWHITE"
+    "BIBLACK" "BIRED" "BIGREEN" "BIYELLOW" "BIBLUE" "BIPURPLE" "BICYAN" "BIWHITE"
+  )
+  for name in "${color_names[@]}"; do
+    eval "color=\$$name"
+    printf "%-10b: %bColor Preview%b\n" "$name" "$color" "${NC}"
+  done
+}
+
 info()    { printf "${IBLACK}[info]${NC} %s\n" "${1:-}"; }
-success() { printf "${GREEN}done${NC} %s\n\n" "${1:-}"; }
-warning() { printf "${YELLOW}warning${NC} %s\n\n" "${1:-}"; }
-error()   { printf "${RED}error${NC} %s\n\n" "${1:-}"; }
+success() { printf "${GREEN}[done]${NC} %s\n\n" "${1:-}"; }
+warning() { printf "${YELLOW}[warning]${NC} %s\n\n" "${1:-}"; }
+error()   { printf "${RED}[error]${NC} %s\n\n" "${1:-}"; }
 
 # Returns a colored string based on boolean input
 status() {
@@ -89,16 +103,32 @@ status() {
 # Run a command or heredoc script with tracing (set -x style)
 run() {
   local exit_code=0
-  printf "${IBLACK}"
+  printf "${BIBLACK}"
 
   if [ $# -eq 0 ]; then
     local script
     script="$(cat)"
     printf '%s\n' "$script"
+    printf "${IBLACK}"
     bash -c "$script" || exit_code=$?
   else
-    printf '%q ' "$@"
-    printf '\n'
+    if [ $# -gt 4 ]; then
+      printf '%q %q %q %q \\\n' "$1" "$2" "$3" "$4"
+      local count=1
+      for arg in "$@"; do
+        [ $count -le 4 ] && { ((count++)); continue; }
+        if [ $count -eq $# ]; then
+          printf '  %q\n' "$arg"
+        else
+          printf '  %q \\\n' "$arg"
+        fi
+        ((count++))
+      done
+    else
+      printf '%q ' "$@"
+      printf '\n'
+    fi
+    printf "${IBLACK}"
     "$@" || exit_code=$?
   fi
 
