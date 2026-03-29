@@ -116,7 +116,7 @@ run() {
     local script
     script="$(cat)"
     if [ "$use_head" = true ]; then
-      printf '%s | head -n1\n' "$script"
+      printf '%s\n' "$script"
       printf "${IBLACK}"
       bash -c "$script" | head -n1 || exit_code=$?
     else
@@ -131,9 +131,7 @@ run() {
       for arg in "$@"; do
         [ $count -le 4 ] && { ((count++)); continue; }
         if [ $count -eq $# ]; then
-          printf '  %q' "$arg"
-          [ "$use_head" = true ] && printf ' | head -n1'
-          printf '\n'
+          printf '  %q\n' "$arg"
         else
           printf '  %q \\\n' "$arg"
         fi
@@ -141,7 +139,6 @@ run() {
       done
     else
       printf '%q ' "$@"
-      [ "$use_head" = true ] && printf '| head -n1'
       printf '\n'
     fi
     printf "${IBLACK}"

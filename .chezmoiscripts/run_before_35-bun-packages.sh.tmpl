@@ -7,7 +7,8 @@ info "Installing bun global packages..."
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-run bun add -g \
+run <<EOF
+bun add -g \
   @anthropic-ai/claude-code \
   browser-sync \
   n8n \
@@ -15,7 +16,7 @@ run bun add -g \
   opencode-ai \
   vercel \
   yarn
-
+EOF
 
 run <<EOF
 bun -v | head -n1
