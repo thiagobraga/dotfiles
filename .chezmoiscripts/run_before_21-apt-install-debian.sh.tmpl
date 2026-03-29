@@ -21,7 +21,6 @@ info "$(printf ${ORANGE}[Debian]${NC}) Installing static curl..."
 run <<EOF
 sudo wget -O /usr/local/bin/curl https://github.com/moparisthebest/static-curl/releases/latest/download/curl-amd64
 sudo chmod +x /usr/local/bin/curl
-sudo apt install -y curl
 EOF
 
 {{ if .isDesktop }}
