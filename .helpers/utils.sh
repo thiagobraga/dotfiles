@@ -123,22 +123,20 @@ run() {
       bash -c "$script" || exit_code=$?
     fi
   else
-    if [ $# -gt 4 ]; then
-      printf '%q %q %q %q \\\n' "$1" "$2" "$3" "$4"
-      local count=1
-      for arg in "$@"; do
-        [ $count -le 4 ] && { ((count++)); continue; }
-        if [ $count -eq $# ]; then
-          printf '  %q\n' "$arg"
-        else
-          printf '  %q \\\n' "$arg"
-        fi
-        ((count++))
-      done
-    else
-      printf '%q ' "$@"
-      printf '\n'
-    fi
+    local total=$#
+    local count=1
+    for arg in "$@"; do
+      if [ $count -eq 1 ]; then
+        printf '%q' "$arg"
+        [ $total -gt 1 ] && printf ' \\\n' || printf '\n'
+      elif [ $count -eq $total ]; then
+        printf '  %q\n' "$arg"
+      else
+        printf '  %q \\\n' "$arg"
+      fi
+      ((count++))
+    done
+
     printf "${IBLACK}"
     if [ "$use_head" = true ]; then
       "$@" | head -n1 || exit_code=$?
