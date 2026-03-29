@@ -7,11 +7,9 @@
 
 # Detect Linux distro
 {{ $isUbuntu := false }}
-{{ $isDebian := false }}
 {{ if $isLinux }}
 {{   if hasKey .chezmoi.osRelease "id" }}
 {{     $isUbuntu = eq .chezmoi.osRelease.id "ubuntu" }}
-{{     $isDebian = eq .chezmoi.osRelease.id "debian" }}
 {{   end }}
 {{ end }}
 
@@ -36,7 +34,6 @@
 [data]
   isLinux = {{ $isLinux }}
   isUbuntu = {{ $isUbuntu }}
-  isDebian = {{ $isDebian }}
   isWsl = {{ $isWsl }}
   isDesktop = {{ $isDesktop }}
   isServer = {{ $isServer }}
