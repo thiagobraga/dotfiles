@@ -29,24 +29,24 @@ sudo apt install -y \\
   zlib1g-dev \\
   &>/dev/null
 rm -rf $HOME/.pyenv
-curl https://pyenv.run | bash &>/dev/null
+curl -fsSL https://pyenv.run | bash &>/dev/null
 EOF
 
 info "Installing pipx..."
 run <<EOF
 sudo apt install -y pipx &>/dev/null
-pipx ensurepath
+pipx ensurepath &>/dev/null
 EOF
 
 info "Installing colo via pipx..."
 run <<EOF
-pipx install colo
+pipx install colo &>/dev/null
 EOF
 
 if ! command -v uv &> /dev/null; then
   info "Installing uv..."
   run <<EOF
-curl -LsSf https://astral.sh/uv/install.sh | sh &>/dev/null
+curl -fsSL https://astral.sh/uv/install.sh | sh &>/dev/null
 EOF
 else
   info "uv is already installed. Updating..."

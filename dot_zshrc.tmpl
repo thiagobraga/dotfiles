@@ -82,7 +82,6 @@ export BUN_INSTALL="${HOME}/.bun"
 
 # Pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
-add_to_path ${PYENV_ROOT}/bin
 # eval "$(pyenv init - bash)"
 # eval "$(pyenv virtualenv-init -)"
 
@@ -92,9 +91,9 @@ add_to_path ${PYENV_ROOT}/bin
 # Check if the directory exists in PATH and add if it's not
 add_to_path() { [[ ":${PATH}:" != *":${1}:"* ]] && export PATH="${1}:${PATH}" || true; }
 
-add_to_path "${HOME}/.local/bin"
-add_to_path "${BUN_INSTALL}/bin"
-
+add_to_path ${HOME}/.local/bin
+add_to_path ${BUN_INSTALL}/bin
+add_to_path ${PYENV_ROOT}/bin
 
 # 10. Project environment variables
 # ------------------------------------------------------------
