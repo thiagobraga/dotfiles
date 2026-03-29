@@ -16,13 +16,31 @@ run bun add -g \
   vercel \
   yarn
 
-run bun -v
-run claude -v
-run browser-sync --version
-run n8n -v
-run openclaw -v
-run opencode -v
-run vercel -v
-run yarn -v
+
+run <<EOF
+bun -v | head -n1
+EOF
+run <<EOF
+claude -v | head -n1
+EOF
+run <<EOF
+browser-sync --version | head -n1
+EOF
+run <<EOF
+n8n -v | head -n1
+EOF
+run <<EOF
+openclaw -v | head -n1
+EOF
+run <<EOF
+opencode -v | head -n1
+EOF
+run <<EOF
+vercel -v | head -n1
+EOF
+run <<EOF
+yarn -v | head -n1
+EOF
+
 success
 {{ end }}

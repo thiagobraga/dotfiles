@@ -103,14 +103,27 @@ status() {
 # Run a command or heredoc script with tracing (set -x style)
 run() {
   local exit_code=0
+  local use_head=false
+
+  if [[ "$1" == "-n1" ]]; then
+    use_head=true
+    shift
+  fi
+
   printf "${BIBLACK}"
 
   if [ $# -eq 0 ]; then
     local script
     script="$(cat)"
-    printf '%s\n' "$script"
-    printf "${IBLACK}"
-    bash -c "$script" || exit_code=$?
+    if [ "$use_head" = true ]; then
+      printf '%s | head -n1\n' "$script"
+      printf "${IBLACK}"
+      bash -c "$script" | head -n1 || exit_code=$?
+    else
+      printf '%s\n' "$script"
+      printf "${IBLACK}"
+      bash -c "$script" || exit_code=$?
+    fi
   else
     if [ $# -gt 4 ]; then
       printf '%q %q %q %q \\\n' "$1" "$2" "$3" "$4"
@@ -118,7 +131,9 @@ run() {
       for arg in "$@"; do
         [ $count -le 4 ] && { ((count++)); continue; }
         if [ $count -eq $# ]; then
-          printf '  %q\n' "$arg"
+          printf '  %q' "$arg"
+          [ "$use_head" = true ] && printf ' | head -n1'
+          printf '\n'
         else
           printf '  %q \\\n' "$arg"
         fi
@@ -126,10 +141,15 @@ run() {
       done
     else
       printf '%q ' "$@"
+      [ "$use_head" = true ] && printf '| head -n1'
       printf '\n'
     fi
     printf "${IBLACK}"
-    "$@" || exit_code=$?
+    if [ "$use_head" = true ]; then
+      "$@" | head -n1 || exit_code=$?
+    else
+      "$@" || exit_code=$?
+    fi
   fi
 
   printf "${NC}"
