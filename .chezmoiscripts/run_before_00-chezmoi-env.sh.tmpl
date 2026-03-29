@@ -3,16 +3,16 @@
 # This script runs early to display the detected system environment.
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
-info "========================================"
-info "thiagobraga dotfiles"
-info "========================================"
-echo
-printf "${GRAY}  isLinux:   $(status {{ .isLinux }})\n"
-printf "${GRAY}  isUbuntu:  $(status {{ .isUbuntu }})\n"
-printf "${GRAY}  isDebian:  $(status {{ .isDebian }})\n"
-printf "${GRAY}  isWsl:     $(status {{ .isWsl }})\n"
-printf "${GRAY}  isDesktop: $(status {{ .isDesktop }})\n"
-printf "${GRAY}  isServer:  $(status {{ .isServer }})\n${NC}"
-echo
-info "========================================"
+printf "${IBLACK}
+========================================
+thiagobraga dotfiles
+========================================\n
+"
+
+printf "${IBLACK}  isLinux:   $(status {{ .isLinux }})\n"
+printf "${IBLACK}  isUbuntu:  $(status {{ .isUbuntu }})\n"
+printf "${IBLACK}  isDebian:  $(status {{ .isDebian }})\n"
+printf "${IBLACK}  isWsl:     $(status {{ .isWsl }})\n"
+printf "${IBLACK}  isDesktop: $(status {{ .isDesktop }})\n"
+printf "${IBLACK}  isServer:  $(status {{ .isServer }})\n${NC}"
 echo

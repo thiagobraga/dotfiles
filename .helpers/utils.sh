@@ -74,11 +74,7 @@ ON_IPURPLE='\033[0;105m'
 ON_ICYAN='\033[0;106m'
 ON_IWHITE='\033[0;107m'
 
-# Legacy/Helper Aliases
-GRAY="${IBLACK}"
-DARK_GRAY="${BBLACK}"
-BOLD_GREEN="${BGREEN}"
-info()    { printf "${GRAY}[info]${NC} %s\n" "${1:-}"; }
+info()    { printf "${IBLACK}[info]${NC} %s\n" "${1:-}"; }
 success() { printf "${GREEN}done${NC} %s\n\n" "${1:-}"; }
 warning() { printf "${YELLOW}warning${NC} %s\n\n" "${1:-}"; }
 error()   { printf "${RED}error${NC} %s\n\n" "${1:-}"; }
@@ -86,14 +82,14 @@ error()   { printf "${RED}error${NC} %s\n\n" "${1:-}"; }
 # Returns a colored string based on boolean input
 status() {
   [[ "${1}" == "true" ]] \
-    && printf "${BOLD_GREEN}true${NC}" \
+    && printf "${BGREEN}true${NC}" \
     || printf "${RED}false${NC}"
 }
 
 # Run a command or heredoc script with tracing (set -x style)
 run() {
   local exit_code=0
-  printf "${GRAY}"
+  printf "${IBLACK}"
 
   if [ $# -eq 0 ]; then
     local script
