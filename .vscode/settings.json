@@ -1,6 +1,7 @@
 {
   "files.associations": {
     "*.sh.tmpl": "shellscript",
+    ".chezmoi.toml.tmpl": "toml",
     "dot_AGENTS.md.tmpl": "markdown",
     "dot_aliases": "shellscript",
     "dot_editorconfig": "ini",

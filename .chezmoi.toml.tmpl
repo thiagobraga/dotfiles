@@ -1,7 +1,11 @@
 # =============================================================================
 # OS Detection
 # =============================================================================
+
+# Detect if it's a Linux system
 {{ $isLinux := eq .chezmoi.os "linux" }}
+
+# Detect Linux distro
 {{ $isUbuntu := false }}
 {{ $isDebian := false }}
 {{ if $isLinux }}
@@ -23,7 +27,7 @@
 # Detect if we are running in a desktop environment
 {{ $isDesktop := false }}
 {{ if and (not $isWsl) (or (lookPath "gnome-shell") (lookPath "gnome-session") (lookPath "plasmashell") (lookPath "xfce4-session") (lookPath "sway") (lookPath "i3")) }}
-  {{ $isDesktop = true -}}
+{{   $isDesktop = true }}
 {{ end }}
 
 # Detect if we are running in a headless server environment
