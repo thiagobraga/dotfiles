@@ -11,7 +11,9 @@ mkdir -p "$HOME/services/llama.cpp" "$HOME/services/paperless-ngx" "$HOME/servic
 if ! docker image inspect ghcr.io/ggml-org/llama.cpp:server &> /dev/null; then
   info "Pulling llama.cpp server Docker image..."
   # Use sudo to ensure it works even if the user hasn't re-logged into docker group
-  run "sudo docker pull ghcr.io/ggml-org/llama.cpp:server"
+  run <<EOF
+sudo docker pull ghcr.io/ggml-org/llama.cpp:server
+EOF
 else
   info "llama.cpp server Docker image is already present."
 fi
