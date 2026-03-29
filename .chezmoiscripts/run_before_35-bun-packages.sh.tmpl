@@ -18,30 +18,12 @@ bun add -g \
   yarn
 EOF
 
-run <<EOF
-bun -v | head -n1
-EOF
-run <<EOF
-claude -v | head -n1
-EOF
-run <<EOF
-browser-sync --version | head -n1
-EOF
-run <<EOF
-n8n -v | head -n1
-EOF
-run <<EOF
-openclaw -v | head -n1
-EOF
-run <<EOF
-opencode -v | head -n1
-EOF
-run <<EOF
-vercel -v | head -n1
-EOF
-run <<EOF
-yarn -v | head -n1
-EOF
-
-success
+run -n1 bun -v
+run -n1 claude -v
+run -n1 browser-sync --version
+run -n1 n8n -v
+run -n1 openclaw -v
+run -n1 opencode -v
+run -n1 vercel -v
+run -n1 yarn -v
 {{ end }}

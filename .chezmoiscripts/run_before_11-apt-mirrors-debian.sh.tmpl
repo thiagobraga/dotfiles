@@ -2,13 +2,14 @@
 
 {{ if .isDebian }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
-info "$(warning '[Debian]') Setting up Brazilian apt mirrors for Debian..."
 
-run sudo tee /etc/apt/sources.list >/dev/null <<EOF
+info "${BRED}[Debian]${NC} Setting up brazilian apt mirrors for Debian..."
+run <<EOF
+sudo tee /etc/apt/sources.list >/dev/null <<'EOF'
 deb http://ftp.br.debian.org/debian bookworm main contrib non-free non-free-firmware
 deb http://ftp.br.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
 deb http://security.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware
+'EOF'
 EOF
 
-success
 {{ end }}

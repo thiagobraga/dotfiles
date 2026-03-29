@@ -11,7 +11,7 @@ if [ ! -d "$NVM_DIR" ]; then
 else
   info "NVM is already installed in $NVM_DIR. Attempting to update..."
 
-  if [ -d "$NVM_DIR/.git" ]; then
+if [ -d "$NVM_DIR/.git" ]; then
     info "Updating NVM via git..."
     (
       cd "$NVM_DIR"
@@ -25,7 +25,6 @@ else
     run curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
   fi
 fi
-success
 
 info "Loading NVM..."
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -34,6 +33,4 @@ info "Installing LTS version of Node.js..."
 
 run nvm install --lts
 run nvm use --lts
-
-success
 {{ end }}

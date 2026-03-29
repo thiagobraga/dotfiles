@@ -21,18 +21,11 @@ for plugin_info in "${plugins[@]}"; do
 
   if [ ! -d "$target_dir" ]; then
     info "Installing plugin: $name..."
-
     run git clone "$url" "$target_dir"
-
-    success "Plugin $name installed."
   else
     info "Updating plugin: $name..."
-
     run git -C "$target_dir" pull
-
-    success "Plugin $name updated."
   fi
 done
 
-success
 {{ end }}
