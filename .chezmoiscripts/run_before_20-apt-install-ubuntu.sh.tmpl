@@ -18,10 +18,12 @@ sudo apt-get install -y \\
   vim \\
   wget \\
   zsh \\
-  zstd
+  zstd \\
+  &>/dev/null
 EOF
 
 {{ if .isDesktop }}
+# TODO: Add Sublime, SmartGit, Spotify
 info "Installing desktop-specific apt packages..."
 run <<EOF
 sudo apt install -y \\
@@ -29,7 +31,8 @@ sudo apt install -y \\
   nemo-fileroller \\
   nemo-font-manager \\
   nemo-gtkhash \\
-  terminator
+  terminator \\
+  &>/dev/null
 EOF
 {{ end }}
 

@@ -10,7 +10,7 @@ EOF
 
 info "Upgrading installed apt packages..."
 run <<EOF
-sudo apt-get upgrade -y
+sudo apt-get upgrade -y &>/dev/null
 EOF
 
 {{ end }}
