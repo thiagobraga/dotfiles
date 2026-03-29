@@ -1,13 +1,12 @@
 #!/bin/bash
 
-{{ if .isUbuntu }}
+{{ if .isDebian }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
-info "Installing essential apt packages..."
+info "Installing essential apt packages for Debian..."
 
 run <<EOF
 sudo apt-get install -y \\
   bat \\
-  build-essential \\
   curl \\
   eza \\
   fzf \\

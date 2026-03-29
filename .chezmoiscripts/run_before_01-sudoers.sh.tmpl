@@ -1,7 +1,6 @@
 #!/bin/bash
 
 {{ if .isLinux }}
-
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 SUDOERS_FILE="/etc/sudoers.d/{{ .chezmoi.username }}"
 

@@ -146,6 +146,6 @@ run() {
   fi
 
   printf "${NC}"
-  [ $exit_code -eq 0 ] && success
+  [ $exit_code -eq 0 ] && [ "$use_head" = false ] && success
   return $exit_code
 }

@@ -1,6 +1,13 @@
 {
   "files.associations": {
-    "*.toml.tmpl": "toml",
-    "*.sh.tmpl": "shellscript"
+    "*.sh.tmpl": "shellscript",
+    "dot_AGENTS.md.tmpl": "markdown",
+    "dot_aliases": "shellscript",
+    "dot_editorconfig": "ini",
+    "dot_gitconfig": "ini",
+    "dot_vimrc": "shellscript",
+    "dot_zshrc.tmpl": "shellscript",
+    "dot_p10k.zsh": "shellscript",
+    "empty_*": "shellscript"
   }
 }

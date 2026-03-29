@@ -8,22 +8,49 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 run <<EOF
-bun add -g \
-  @anthropic-ai/claude-code \
-  browser-sync \
-  n8n \
-  openclaw \
-  opencode-ai \
-  vercel \
-  yarn
+bun add -g \\
+  @anthropic-ai/claude-code \\
+  browser-sync \\
+  n8n \\
+  openclaw \\
+  opencode-ai \\
+  vercel \\
+  yarn \\
+  &> /dev/null
 EOF
 
-run -n1 bun -v
-run -n1 claude -v
-run -n1 browser-sync --version
-run -n1 n8n -v
-run -n1 openclaw -v
-run -n1 opencode -v
-run -n1 vercel -v
-run -n1 yarn -v
+info "Testing bun global packages..."
+run -n1 <<EOF
+bun -v
+EOF
+
+run -n1 <<EOF
+claude -v
+EOF
+
+run -n1 <<EOF
+browser-sync --version
+EOF
+
+run -n1 <<EOF
+n8n -v
+EOF
+
+run -n1 <<EOF
+openclaw -v
+EOF
+
+run -n1 <<EOF
+opencode -v
+EOF
+
+run -n1 <<EOF
+vercel -v
+EOF
+
+run -n1 <<EOF
+yarn -v
+EOF
+
+success
 {{ end }}
