@@ -115,13 +115,11 @@ run() {
   if [ $# -eq 0 ]; then
     local script
     script="$(cat)"
+    printf '%s\n' "$script"
+    printf "${IBLACK}"
     if [ "$use_head" = true ]; then
-      printf '%s\n' "$script"
-      printf "${IBLACK}"
       bash -c "$script" | head -n1 || exit_code=$?
     else
-      printf '%s\n' "$script"
-      printf "${IBLACK}"
       bash -c "$script" || exit_code=$?
     fi
   else
