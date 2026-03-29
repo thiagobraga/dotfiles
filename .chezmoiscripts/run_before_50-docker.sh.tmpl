@@ -1,0 +1,25 @@
+#!/bin/bash
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+info "$(printf "${ORANGE}[Docker]${NC}") Installing/Checking Docker and user group membership..."
+
+if ! command -v docker &> /dev/null; then
+    info "Installing Docker via official convenience script..."
+    run "curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh && rm get-docker.sh"
+else
+    info "Docker is already installed."
+fi
+
+# 1. Add current user to docker group
+if ! groups $USER | grep -q "\bdocker\b"; then
+    info "Adding user $USER to the docker group..."
+    run "sudo usermod -aG docker $USER"
+    warning "You will need to re-log for group changes to take effect."
+else
+    info "User is already in the docker group."
+fi
+
+# 2. Check docker compose
+if ! command -v docker compose &> /dev/null; then
+    info "Docker Compose is already included with the latest Docker installation."
+fi

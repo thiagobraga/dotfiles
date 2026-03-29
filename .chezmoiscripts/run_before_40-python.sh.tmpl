@@ -1,0 +1,45 @@
+#!/bin/bash
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+info "$(printf "${ORANGE}[Python]${NC}") Installing Python tools (pyenv, pipx, uv)..."
+
+# 1. Pyenv
+if [ ! -d "$HOME/.pyenv" ]; then
+    info "Installing pyenv..."
+    # Dependencies for building python if needed later
+    run <<EOF
+sudo apt install -y build-essential libssl-dev zlib1g-dev \
+libbz2-dev libreadline-dev libsqlite3-dev curl git \
+libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+curl https://pyenv.run | bash
+EOF
+else
+    info "pyenv is already installed. Updating..."
+    run "pyenv update" || true
+fi
+
+# 2. Pipx
+if ! command -v pipx &> /dev/null; then
+    info "Installing pipx..."
+    run "sudo apt update && sudo apt install -y pipx"
+    run "pipx ensurepath"
+else
+    info "pipx is already installed."
+fi
+
+# 3. Colo (via pipx)
+if ! pipx list | grep -q "colo" &> /dev/null; then
+    info "Installing colo via pipx..."
+    run "pipx install colo"
+else
+    info "colo is already installed."
+fi
+
+# 4. UV
+if ! command -v uv &> /dev/null; then
+    info "Installing uv..."
+    run "curl -LsSf https://astral.sh/uv/install.sh | sh"
+else
+    info "uv is already installed. Updating..."
+    run "uv self update" || true
+fi

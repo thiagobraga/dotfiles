@@ -1,0 +1,28 @@
+#!/bin/bash
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+info "$(printf "${ORANGE}[Self-host]${NC}") Setting up Docker-based services (llama.cpp and paperless-ngx)..."
+
+mkdir -p "$HOME/services/llama.cpp" "$HOME/services/paperless-ngx"
+
+# 1. Pull llama.cpp server image
+if ! docker image inspect ghcr.io/ggml-org/llama.cpp:server &> /dev/null; then
+  info "Pulling llama.cpp server Docker image..."
+  # Use sudo to ensure it works even if the user hasn't re-logged into docker group
+  run "sudo docker pull ghcr.io/ggml-org/llama.cpp:server"
+else
+  info "llama.cpp server Docker image is already present."
+fi
+
+# 2. Prepare Paperless-ngx
+if [ ! -f "$HOME/services/paperless-ngx/docker-compose.yml" ]; then
+  info "Fetching Paperless-ngx docker-compose example..."
+  run <<EOF
+wget -q "https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/docker/compose/docker-compose.postgres.yml" -O "$HOME/services/paperless-ngx/docker-compose.yml"
+wget -q "https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/docker/compose/.env" -O "$HOME/services/paperless-ngx/.env"
+EOF
+  warning "Paperless-ngx is ready for configuration in ~/services/paperless-ngx/."
+  warning "Manually run the official setup script if you prefer interactive configuration: bash -c \"\$(curl -L https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/install-paperless-ngx.sh)\""
+else
+  info "Paperless-ngx setup directory found in ~/services/paperless-ngx/."
+fi

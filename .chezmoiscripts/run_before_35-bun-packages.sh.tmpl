@@ -10,6 +10,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 run <<EOF
 bun add -g \\
   @anthropic-ai/claude-code \\
+  @kilocode/cli \\
   browser-sync \\
   n8n \\
   openclaw \\
@@ -33,6 +34,10 @@ browser-sync --version
 EOF
 
 run -n1 <<EOF
+kilo --version
+EOF
+
+run -n1 <<EOF
 n8n -v
 EOF
 
@@ -51,6 +56,12 @@ EOF
 run -n1 <<EOF
 yarn -v
 EOF
-
 success
+
+info "Installing Antigravity Awesome Skills..."
+run <<EOF
+npx antigravity-awesome-skills
+test -d ~/.gemini/antigravity/skills && echo "Skills installed"
+EOF
+
 {{ end }}
