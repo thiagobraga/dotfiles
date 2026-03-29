@@ -2,8 +2,8 @@
 
 {{ if .isUbuntu }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
-info "Installing essential apt packages..."
 
+info "Installing essential apt packages..."
 run <<EOF
 sudo apt-get install -y \\
   bat \\
@@ -15,10 +15,21 @@ sudo apt-get install -y \\
   make \\
   neovim \\
   ripgrep \\
-  {{- if .isDesktop }} terminator \\ {{- end }}
   vim \\
   wget \\
   zsh
 EOF
+
+{{ if .isDesktop }}
+info "Installing desktop-specific apt packages..."
+run <<EOF
+sudo apt install -y \\
+  nemo \\
+  nemo-fileroller \\
+  nemo-font-manager \\
+  nemo-gtkhash \\
+  terminator
+EOF
+{{ end }}
 
 {{ end }}

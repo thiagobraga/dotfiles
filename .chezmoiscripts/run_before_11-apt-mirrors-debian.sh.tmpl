@@ -3,7 +3,7 @@
 {{ if .isDebian }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
-info "$(printf ${BRED}[Debian]${NC}) Setting up brazilian apt mirrors for Debian..."
+info "$(printf ${ORANGE}[Debian]${NC}) Setting up brazilian apt mirrors for Debian..."
 run <<EOR
 sudo tee /etc/apt/sources.list >/dev/null <<EOF
 deb http://ftp.br.debian.org/debian bookworm main contrib non-free non-free-firmware

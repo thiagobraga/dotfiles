@@ -2,10 +2,10 @@
 
 {{ if .isDebian }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
-info "$(printf ${BRED}[Debian]${NC}) Installing essential apt packages for Debian..."
+info "$(printf ${ORANGE}[Debian]${NC}) Installing essential apt packages for Debian..."
 
 run <<EOF
-sudo apt-get install -y \\
+sudo apt install -y \\
   bat \\
   curl \\
   fzf \\
@@ -13,10 +13,22 @@ sudo apt-get install -y \\
   make \\
   neovim \\
   ripgrep \\
-  {{- if .isDesktop }} terminator \\ {{- end }}
   vim \\
   wget \\
   zsh
 EOF
+
+{{ if .isDesktop }}
+info "$(printf ${ORANGE}[Debian]${NC}) Installing desktop-specific apt packages..."
+run <<EOF
+sudo add-apt-repository -y ppa:mattrose/terminator
+sudo apt install -y terminator
+sudo apt install -y --no-install-recommends \\
+  nemo \\
+  nemo-fileroller \\
+  nemo-font-manager \\
+  nemo-gtkhash
+EOF
+{{ end }}
 
 {{ end }}
