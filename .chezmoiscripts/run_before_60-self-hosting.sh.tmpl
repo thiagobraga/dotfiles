@@ -3,9 +3,9 @@
 {{ if .isLinux }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
-info "$(printf "${ORANGE}[Self-host]${NC}") Setting up Docker-based services (llama.cpp and paperless-ngx)..."
+info "$(printf "${ORANGE}[Self-host]${NC}") Setting up Docker-based services (llama.cpp, paperless-ngx, and glance)..."
 
-mkdir -p "$HOME/services/llama.cpp" "$HOME/services/paperless-ngx"
+mkdir -p "$HOME/services/llama.cpp" "$HOME/services/paperless-ngx" "$HOME/services/glance"
 
 # 1. Pull llama.cpp server image
 if ! docker image inspect ghcr.io/ggml-org/llama.cpp:server &> /dev/null; then
@@ -27,6 +27,19 @@ EOF
   warning "Manually run the official setup script if you prefer interactive configuration: bash -c \"\$(curl -L https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/install-paperless-ngx.sh)\""
 else
   info "Paperless-ngx setup directory found in ~/services/paperless-ngx/."
+fi
+
+# 3. Prepare Glance
+if [ ! -f "$HOME/services/glance/docker-compose.yml" ]; then
+  info "Fetching Glance docker-compose template..."
+  run <<EOF
+mkdir -p "$HOME/services/glance"
+cd "$HOME/services/glance"
+curl -sL https://github.com/glanceapp/docker-compose-template/archive/refs/heads/main.tar.gz | tar -xzf - --strip-components 2
+EOF
+  warning "Glance is ready for configuration in ~/services/glance/."
+else
+  info "Glance setup directory found in ~/services/glance/."
 fi
 
 {{ end }}
