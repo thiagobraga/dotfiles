@@ -70,7 +70,7 @@ export plugins=(git nvm zsh-syntax-highlighting zsh-autosuggestions)
 [[ -e "${HOME}/.aliases" ]] && source "${HOME}/.aliases"
 
 
-# 8. Development Tools (NVM, Bun, etc.)
+# 8. Development Tools (NVM, Bun, Pyenv)
 # ------------------------------------------------------------
 # NVM (Node Version Manager)
 export NVM_DIR="${HOME}/.nvm"
@@ -79,6 +79,12 @@ export NVM_DIR="${HOME}/.nvm"
 
 # Bun
 export BUN_INSTALL="${HOME}/.bun"
+
+# Pyenv
+export PYENV_ROOT="${HOME}/.pyenv"
+add_to_path ${PYENV_ROOT}/bin
+# eval "$(pyenv init - bash)"
+# eval "$(pyenv virtualenv-init -)"
 
 
 # 9. PATH overrides
