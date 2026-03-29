@@ -2,14 +2,9 @@
 {{ if .isLinux }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
-info "$(printf "${ORANGE}[AI]${NC}") Installing Ollama..."
-
-if ! command -v ollama &> /dev/null; then
-  info "Fetching and installing Ollama..."
-  run "curl -fsSL https://ollama.com/install.sh | sh"
-else
-  info "Ollama is already installed."
-  # Optional: Ollama self-update? The install script usually handles it, or just leave it.
-fi
+info "Installing Ollama..."
+run <<EOF
+curl -fsSL https://ollama.com/install.sh | sh
+EOF
 
 {{ end }}
