@@ -1,4 +1,6 @@
 #!/bin/bash
+
+{{ if .isLinux }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "$(printf "${ORANGE}[Self-host]${NC}") Setting up Docker-based services (llama.cpp and paperless-ngx)..."
@@ -26,3 +28,5 @@ EOF
 else
   info "Paperless-ngx setup directory found in ~/services/paperless-ngx/."
 fi
+
+{{ end }}
