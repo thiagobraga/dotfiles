@@ -21,10 +21,9 @@ if [ ! -f "${SELF_HOSTED_DIR}/paperless-ngx/docker-compose.yml" ]; then
   info "Fetching Paperless-ngx docker-compose example..."
   export PAPERLESS_NGX_URL='https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/docker/compose/'
   run <<EOF
-mkdir -p "${SELF_HOSTED_DIR}/paperless-ngx"
 cd "${SELF_HOSTED_DIR}/paperless-ngx"
 wget -q "${PAPERLESS_NGX_URL}/docker-compose.postgres.yml" -O "docker-compose.yml"
-wget -q "${PAPERLESS_NGX_URL}/.env" -O ".env"
+wget -q "${PAPERLESS_NGX_URL}/.env" -O "docker-compose.env"
 docker compose pull
 docker compose up -d
 EOF

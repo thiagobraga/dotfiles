@@ -6,7 +6,9 @@ source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 if [ ! -d "${HOME}/.oh-my-zsh" ]; then
   info "Installing Oh My Zsh..."
   run <<EOF
-sh -c "$(curl -fsSL https://install.ohmyz.sh)" "" --keep-zshrc --unattended
+wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh &>/dev/null \\
+  && sh install.sh --keep-zshrc --unattended &>/dev/null \\
+  && rm install.sh
 EOF
 else
   info "Oh My Zsh is already installed. Updating..."
