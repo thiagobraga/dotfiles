@@ -33,8 +33,7 @@ if ! groups $USER | grep -q "docker"; then
   info "Adding user $USER to the docker group..."
   run <<EOF
 sudo usermod -aG docker $USER
-newgrp docker <<INNER_EOF
-INNER_EOF
+newgrp docker
 EOF
 fi
 
