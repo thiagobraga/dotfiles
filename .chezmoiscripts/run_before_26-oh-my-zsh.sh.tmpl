@@ -25,7 +25,7 @@ fi
 if [ -f "${HOME}/.zshrc" ]; then
   info "Reloading .zshrc..."
   run <<EOF
-zsh -c "source ${HOME}/.zshrc"
+[ -n "\$ZSH_VERSION" ] && source "${HOME}/.zshrc" || zsh
 EOF
 fi
 
