@@ -1,8 +1,8 @@
 <div align="center">
   <img src=".helpers/chezmoi.png" width="120" />
-  <h1>🚀 dotfiles</h1>
+  <h1>dotfiles</h1>
   <p><b>A performance-tuned, AI-first development environment automation.</b></p>
-  
+
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
   [![Managed by chezmoi](https://img.shields.io/badge/managed%20by-chezmoi-blue.svg)](https://www.chezmoi.io/)
   [![Built for Ubuntu](https://img.shields.io/badge/OS-Ubuntu-orange.svg)](https://ubuntu.com/)
@@ -10,7 +10,7 @@
 
 ---
 
-## ⚡ Overview
+## Overview
 
 My personal configuration for **Ubuntu/WSL**, meticulously automated with [chezmoi](https://www.chezmoi.io/). This project transforms a fresh Linux installation into a fully-equipped development workstation in minutes, featuring:
 
@@ -19,25 +19,26 @@ My personal configuration for **Ubuntu/WSL**, meticulously automated with [chezm
 - **Self-Hosted Infrastructure**: One-command deployment of `llama.cpp`, `paperless-ngx`, and `glance`.
 - **Turbo-charged Shell**: Zsh + Powerlevel10k + fine-tuned history and completion.
 
-## 🛠️ Installation
+## Installation
 
 Run the following command on a new machine:
 
 ```bash
+export PATH="${HOME}/.local/bin:${PATH}"
 sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply thiagobraga -S ~/projects/dotfiles
 ```
 
 ---
 
-## 🏗️ The Stack
+## The Stack
 
-### 🐚 Shell & Terminal
+### Shell & Terminal
 - **Framework**: Oh My Zsh with a robust plugin set (`git`, `nvm`, `syntax-highlighting`, `autosuggestions`).
 - **Theme**: [Powerlevel10k](https://github.com/romkatv/powerlevel10k) (fully customized).
 - **Essentials**: `eza` (LS++), `bat` (CAT++), `fzf` (Fuzzy Finder), `zstd`, `ripgrep`, `neovim`.
 
-### 💻 Development Runtimes
-- **JavaScript/TypeScript**: 
+### Development Runtimes
+- **JavaScript/TypeScript**:
   - **Node.js** via `NVM` (managed as a chezmoi script).
   - **Bun** for high-speed execution (on systems with AVX support).
   - Global Tools: `vercel`, `n8n`, `browser-sync`, `yarn`.
@@ -46,12 +47,12 @@ sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply thiagobraga -S ~/project
   - `pipx` for isolated tool installs.
   - `uv` for lightning-fast package management.
 
-### 🤖 AI Ecosystem
+### AI Ecosystem
 - **Local LLMs**: [Ollama](https://ollama.com/) & [llama.cpp](https://github.com/ggerganov/llama.cpp) server.
 - **Agents**: Official integration for `claude-code`, `openclaw`, and `opencode-ai`.
 - **Skills**: [Antigravity Awesome Skills](https://github.com/antigravity-ai/awesome-skills) pre-installed for agentic productivity.
 
-### 🐳 Containers & Self-Hosting
+### Containers & Self-Hosting
 Managed via **Docker** and **Docker Compose**:
 - **llama.cpp**: High-performance LLM inference server.
 - **paperless-ngx**: Advanced document management system.
@@ -59,7 +60,7 @@ Managed via **Docker** and **Docker Compose**:
 
 ---
 
-## ⚙️ Project Structure
+## Project Structure
 
 - `.chezmoiscripts/`: Discrete setup scripts for each layer of the environment (APT, NVM, Docker, etc.).
 - `.helpers/`: Utility functions and color-coded logging for the bootstrap process.
@@ -68,7 +69,7 @@ Managed via **Docker** and **Docker Compose**:
 
 ---
 
-## 🎨 System Highlights
+## System Highlights
 - **Optimized APT**: Automatic mirror selection and system-wide locale configuration.
 - **WSL Native**: Integrated detection for WSL features and Windows Terminal settings synchronization.
 - **Color-Coded Feedback**: Every install step is traced with professional progress indicators via a custom `run` helper.

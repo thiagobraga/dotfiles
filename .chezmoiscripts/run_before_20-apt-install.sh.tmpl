@@ -10,12 +10,14 @@ sudo apt-get install -y \\
   build-essential \\
   ca-certificates \\
   curl \\
+  dislocker \\
   eza \\
   fzf \\
   git \\
   make \\
   neovim \\
   ntfs-3g \\
+  numlockx \\
   samba \\
   unzip \\
   vim \\
@@ -24,19 +26,5 @@ sudo apt-get install -y \\
   zstd \\
   &>/dev/null
 EOF
-
-{{ if .isDesktop }}
-# TODO: Add Sublime, SmartGit, Spotify
-info "Installing desktop-specific apt packages..."
-run <<EOF
-sudo apt install -y \\
-  nemo \\
-  nemo-fileroller \\
-  nemo-font-manager \\
-  nemo-gtkhash \\
-  terminator \\
-  &>/dev/null
-EOF
-{{ end }}
 
 {{ end }}

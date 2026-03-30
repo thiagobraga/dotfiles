@@ -1,0 +1,92 @@
+#!/bin/bash
+
+{{ if and .isUbuntu .isDesktop }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+info "Installing Antigravity..."
+run <<EOF
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg | \
+  sudo gpg --dearmor --yes -o /etc/apt/keyrings/antigravity-repo-key.gpg
+echo "deb [signed-by=/etc/apt/keyrings/antigravity-repo-key.gpg] https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/ antigravity-debian main" | \
+  sudo tee /etc/apt/sources.list.d/antigravity.list > /dev/null
+sudo apt-get update &>/dev/null
+sudo apt-get install -y antigravity &>/dev/null
+EOF
+
+info "Installing Firefox Nightly..."
+run <<EOF
+sudo add-apt-repository -y ppa:ubuntu-mozilla-daily/ppa &>/dev/null
+sudo apt-get install -y firefox-nightly &>/dev/null
+EOF
+
+info "Installing GNOME Remote Desktop..."
+run <<EOF
+sudo apt-get install -y gnome-remote-desktop &>/dev/null
+EOF
+
+info "Installing Google Chrome..."
+run <<EOF
+wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google-chrome.deb &>/dev/null
+sudo apt-get install -y /tmp/google-chrome.deb &>/dev/null
+rm /tmp/google-chrome.deb
+EOF
+
+info "Installing Gparted..."
+run <<EOF
+sudo apt-get install -y gparted &>/dev/null
+EOF
+
+info "Installing Grub Customizer..."
+run <<EOF
+sudo add-apt-repository -y ppa:danielrichter2007/grub-customizer &>/dev/null
+sudo apt-get install -y grub-customizer &>/dev/null
+EOF
+
+info "Installing Nemo & plugins..."
+run <<EOF
+sudo apt-get install -y \
+  nemo \
+  nemo-fileroller \
+  nemo-font-manager \
+  nemo-gtkhash \
+  &>/dev/null
+EOF
+
+info "Installing SmartGit..."
+run <<EOF
+wget -q https://www.syntevo.com/static/smart/download/smartgit/smartgit-24_1_2.deb -O /tmp/smartgit.deb
+sudo apt-get install -y /tmp/smartgit.deb &>/dev/null
+rm /tmp/smartgit.deb
+EOF
+
+info "Installing Spotify..."
+run <<EOF
+curl -sS https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.asc | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+sudo apt-get update &>/dev/null
+sudo apt-get install -y spotify-client &>/dev/null
+EOF
+
+info "Installing Sublime Text..."
+run <<EOF
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+sudo apt-get update &>/dev/null
+sudo apt-get install -y sublime-text &>/dev/null
+EOF
+
+info "Installing Terminator..."
+run <<EOF
+sudo apt-get install -y terminator &>/dev/null
+EOF
+
+info "Installing VS Code..."
+run <<EOF
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
+echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
+sudo apt-get update &>/dev/null
+sudo apt-get install -y code &>/dev/null
+EOF
+
+{{ end }}
