@@ -4,8 +4,7 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Docker section"
-
-[[ ! command -v docker &>/dev/null ]] \
+! command -v docker &>/dev/null \
   && info "Installing Docker via official convenience script..." \
   || info "Updating Docker..."
 
@@ -27,8 +26,8 @@ else
 fi
 
 info "Checking for Docker Compose..."
-[[ ! docker compose version &>/dev/null ]] \
-  && info "Installing Docker Compose plugin..."
+! docker compose version &>/dev/null \
+  && info "Installing Docker Compose plugin..." \
   || info "Updating Docker Compose plugin..."
 run <<EOF
 sudo apt-get install -y docker-compose-plugin &>/dev/null
