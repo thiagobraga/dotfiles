@@ -5,15 +5,15 @@ source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 {{ if .isWsl -}}
 ! command -v docker &>/dev/null \
-  && warning "Docker not found in WSL. Ensure Docker Desktop WSL Integration is enabled." \
-  || info "Docker found via WSL Integration. Skipping native installation."
+  && warning "Docker not found in WSL. Ensure Docker Desktop is running and WSL Integration is enabled." \
+  || info "Docker found via WSL Integration. Skipping native installation." && success
 
 {{ else -}}
 if ! command -v docker &>/dev/null; then
   info "Installing Docker via official convenience script..."
   run <<EOF
-curl -fsSL https://get.docker.com -o get-docker.sh \
-  && sudo sh get-docker.sh \
+curl -fsSL https://get.docker.com -o get-docker.sh \\
+  && sudo sh get-docker.sh \\
   && rm get-docker.sh
 EOF
 else

@@ -9,16 +9,12 @@ if [ ! -d "${HOME}/.oh-my-zsh" ]; then
 wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh &>/dev/null \
   && sh install.sh --keep-zshrc --unattended &>/dev/null \
   && rm install.sh
-EOF
-
-  info "Setting up temporary minimalist .zshrc..."
-  cat <<'EOF' > "${HOME}/.zshrc"
+cat <<'EOZ' > "${HOME}/.zshrc"
 export ZSH="${HOME}/.oh-my-zsh"
 ZSH_THEME="agnoster"
-plugins=(git nvm)
-source $ZSH/oh-my-zsh.sh
+source ${ZSH}/oh-my-zsh.sh
+EOZ
 EOF
-
 else
   info "Oh My Zsh is already installed. Updating..."
   run <<EOF
@@ -28,7 +24,9 @@ fi
 
 if [ -f "${HOME}/.zshrc" ]; then
   info "Reloading .zshrc..."
-  zsh -c "source ${HOME}/.zshrc"
+  run <<EOF
+zsh -c "source ${HOME}/.zshrc"
+EOF
 fi
 
 {{ end }}
