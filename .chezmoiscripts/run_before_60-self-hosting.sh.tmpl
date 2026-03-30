@@ -5,7 +5,9 @@ source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Self-hosting services (llama.cpp, paperless-ngx, glance)..."
 
 export SELF_HOSTED_DIR="${HOME}/projects/self-hosted"
-mkdir -p "${SELF_HOSTED_DIR}/{llama.cpp,paperless-ngx,glance}"
+mkdir -p "${SELF_HOSTED_DIR}/llama.cpp"
+mkdir -p "${SELF_HOSTED_DIR}/paperless-ngx"
+mkdir -p "${SELF_HOSTED_DIR}/glance"
 
 if ! docker image inspect ghcr.io/ggml-org/llama.cpp:server &>/dev/null; then
   info "Pulling llama.cpp server Docker image..."
@@ -19,6 +21,7 @@ if [ ! -f "${SELF_HOSTED_DIR}/paperless-ngx/docker-compose.yml" ]; then
   info "Fetching Paperless-ngx docker-compose example..."
   export PAPERLESS_NGX_URL='https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/docker/compose/'
   run <<EOF
+mkdir -p "${SELF_HOSTED_DIR}/paperless-ngx"
 cd "${SELF_HOSTED_DIR}/paperless-ngx"
 wget -q "${PAPERLESS_NGX_URL}/docker-compose.postgres.yml" -O "docker-compose.yml"
 wget -q "${PAPERLESS_NGX_URL}/.env" -O ".env"
