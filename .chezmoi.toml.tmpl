@@ -31,12 +31,19 @@
 # Detect if we are running in a headless server environment
 {{ $isServer := and (not $isWsl) (not $isDesktop) }}
 
+# Detect if AVX instructions are supported
+{{ $hasAVX := false }}
+{{ if $isLinux }}
+{{   $hasAVX = (output "sh" "-c" "grep -q avx /proc/cpuinfo && echo true || echo false" | trim | eq "true") }}
+{{ end }}
+
 [data]
   isLinux = {{ $isLinux }}
   isUbuntu = {{ $isUbuntu }}
   isWsl = {{ $isWsl }}
   isDesktop = {{ $isDesktop }}
   isServer = {{ $isServer }}
+  hasAVX = {{ $hasAVX }}
 
 [edit]
   apply = true

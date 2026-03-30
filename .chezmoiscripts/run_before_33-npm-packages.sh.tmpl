@@ -1,29 +1,27 @@
 #!/bin/bash
 
-{{ if and .isLinux .hasAVX }}
+{{ if and .isLinux (not .hasAVX) }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
-info "Installing bun global packages..."
+info "Installing npm global packages (fallback for non-AVX hardware)..."
 
-export PATH="${HOME}/.bun/bin:${PATH}"
+# Ensure nvm-installed node/npm is in PATH
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 run <<EOF
-bun add -g \\
-  @anthropic-ai/claude-code \\
-  @kilocode/cli \\
-  browser-sync \\
-  n8n \\
-  openclaw \\
-  opencode-ai \\
-  vercel \\
-  yarn \\
+npm i -g \
+  @anthropic-ai/claude-code \
+  @kilocode/cli \
+  browser-sync \
+  n8n \
+  openclaw \
+  opencode-ai \
+  vercel \
+  yarn \
   &>/dev/null
 EOF
 
-info "Testing bun global packages..."
-run -n1 <<EOF
-bun -v
-EOF
-
+info "Testing npm global packages..."
 run -n1 <<EOF
 claude -v
 EOF
@@ -55,7 +53,6 @@ EOF
 run -n1 <<EOF
 yarn -v
 EOF
-success
 
 info "Installing Antigravity Awesome Skills..."
 run <<EOF
@@ -63,4 +60,5 @@ npx antigravity-awesome-skills &>/dev/null
 test -d ~/.gemini/antigravity/skills && echo "Skills installed"
 EOF
 
+success
 {{ end }}
