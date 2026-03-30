@@ -4,8 +4,7 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Installing bun global packages..."
 
-export BUN_INSTALL="${HOME}/.bun"
-export PATH="${BUN_INSTALL}/bin:${PATH}"
+export PATH="${HOME}/.bun/bin:${PATH}"
 
 run <<EOF
 bun add -g \\
