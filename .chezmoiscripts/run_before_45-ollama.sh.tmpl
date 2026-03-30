@@ -2,9 +2,14 @@
 {{ if .isLinux }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
-info "Installing Ollama..."
-run <<EOF
+if ! command -v ollama &>/dev/null; then
+  info "Installing Ollama..."
+  run <<EOF
 curl -fsSL https://ollama.com/install.sh | sh
 EOF
+else
+  info "Ollama is already installed"
+  success
+fi
 
 {{ end }}
