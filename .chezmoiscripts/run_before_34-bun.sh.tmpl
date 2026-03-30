@@ -4,11 +4,10 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 if ! command -v bun &> /dev/null; then
-  local BASH_ARGS=""
-  grep -q avx /proc/cpuinfo || BASH_ARGS="-s bun-v1.3.11-baseline"
-  
   info "Installing Bun..."
-  run <<EOF
+  run <<'EOF'
+BASH_ARGS=""
+grep -q avx /proc/cpuinfo || BASH_ARGS="-s bun-v1.3.11-baseline"
 curl -fsSL https://bun.sh/install | bash ${BASH_ARGS} &>/dev/null
 EOF
 else
