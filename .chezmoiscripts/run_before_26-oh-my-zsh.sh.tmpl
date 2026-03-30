@@ -9,12 +9,18 @@ if [ ! -d "${HOME}/.oh-my-zsh" ]; then
 wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh &>/dev/null \\
   && sh install.sh --keep-zshrc --unattended &>/dev/null \\
   && rm install.sh
+
 EOF
 else
   info "Oh My Zsh is already installed. Updating..."
   run <<EOF
 git -C ${HOME}/.oh-my-zsh pull
 EOF
+fi
+
+if [ -f "${HOME}/.zshrc" ]; then
+  info "Reloading .zshrc..."
+  zsh -c "source ${HOME}/.zshrc"
 fi
 
 {{ end }}
