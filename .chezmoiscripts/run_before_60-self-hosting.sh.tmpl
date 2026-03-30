@@ -2,46 +2,46 @@
 
 {{ if .isLinux }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+info "Self-hosting services (llama.cpp, paperless-ngx, glance)..."
 
-info "$(printf "${ORANGE}[Self-host]${NC}") Setting up Docker-based services (llama.cpp, paperless-ngx, and glance)..."
+export SELF_HOSTED_DIR="${HOME}/projects/self-hosted"
+mkdir -p "${SELF_HOSTED_DIR}/{llama.cpp,paperless-ngx,glance}"
 
-mkdir -p "$HOME/services/llama.cpp" "$HOME/services/paperless-ngx" "$HOME/services/glance"
-
-# 1. Pull llama.cpp server image
-if ! docker image inspect ghcr.io/ggml-org/llama.cpp:server &> /dev/null; then
+if ! docker image inspect ghcr.io/ggml-org/llama.cpp:server &>/dev/null; then
   info "Pulling llama.cpp server Docker image..."
-  # Use sudo to ensure it works even if the user hasn't re-logged into docker group
   run <<EOF
-sudo docker pull ghcr.io/ggml-org/llama.cpp:server
+docker pull ghcr.io/ggml-org/llama.cpp:server
 EOF
-else
-  info "llama.cpp server Docker image is already present."
 fi
 
-# 2. Prepare Paperless-ngx
-if [ ! -f "$HOME/services/paperless-ngx/docker-compose.yml" ]; then
+if [ ! -f "${SELF_HOSTED_DIR}/paperless-ngx/docker-compose.yml" ]; then
   info "Fetching Paperless-ngx docker-compose example..."
   run <<EOF
-wget -q "https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/docker/compose/docker-compose.postgres.yml" -O "$HOME/services/paperless-ngx/docker-compose.yml"
-wget -q "https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/docker/compose/.env" -O "$HOME/services/paperless-ngx/.env"
+wget -q "https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/docker/compose/docker-compose.postgres.yml" -O "$SELF_HOSTED_DIR/paperless-ngx/docker-compose.yml"
+wget -q "https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/docker/compose/.env" -O "$SELF_HOSTED_DIR/paperless-ngx/.env"
 EOF
   warning "Paperless-ngx is ready for configuration in ~/services/paperless-ngx/."
   warning "Manually run the official setup script if you prefer interactive configuration: bash -c \"\$(curl -L https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/install-paperless-ngx.sh)\""
-else
-  info "Paperless-ngx setup directory found in ~/services/paperless-ngx/."
 fi
 
-# 3. Prepare Glance
-if [ ! -f "$HOME/services/glance/docker-compose.yml" ]; then
+if [ ! -f "${SELF_HOSTED_DIR}/glance/docker-compose.yml" ]; then
   info "Fetching Glance docker-compose template..."
   run <<EOF
-mkdir -p "$HOME/services/glance"
-cd "$HOME/services/glance"
+cd "${SELF_HOSTED_DIR}/glance"
 curl -sL https://github.com/glanceapp/docker-compose-template/archive/refs/heads/main.tar.gz | tar -xzf - --strip-components 2
 EOF
-  warning "Glance is ready for configuration in ~/services/glance/."
-else
-  info "Glance setup directory found in ~/services/glance/."
 fi
+
+info "$(printf "${ORANGE}[Self-host]${NC}") Starting self-hosted services (only if docker-compose.yml exists)..."
+
+for service in "glance" "llama.cpp" "paperless-ngx"; do
+  if [ -f "${SELF_HOSTED_DIR}/${service}/docker-compose.yml" ]; then
+    info "Starting ${service}..."
+    run <<EOF
+cd "${SELF_HOSTED_DIR}/${service}"
+docker compose up -d
+EOF
+  fi
+done
 
 {{ end }}
