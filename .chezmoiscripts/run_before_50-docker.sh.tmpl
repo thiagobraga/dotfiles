@@ -4,11 +4,10 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 {{ if .isWsl -}}
-if ! command -v docker &>/dev/null; then
-  warning "Docker not found in WSL. Ensure Docker Desktop WSL Integration is enabled."
-else
-  info "Docker found via WSL Integration. Skipping native installation."
-fi
+! command -v docker &>/dev/null \
+  && warning "Docker not found in WSL. Ensure Docker Desktop WSL Integration is enabled." \
+  || info "Docker found via WSL Integration. Skipping native installation."
+
 {{ else -}}
 if ! command -v docker &>/dev/null; then
   info "Installing Docker via official convenience script..."
@@ -18,7 +17,16 @@ curl -fsSL https://get.docker.com -o get-docker.sh \
   && rm get-docker.sh
 EOF
 else
-  info "Docker is already installed. Skipping get.docker.com script to avoid warnings."
+  info "Updating Docker..."
+  run <<EOF
+sudo apt install -y \\
+  containerd.io \\
+  docker-buildx-plugin \\
+  docker-ce \\
+  docker-ce-cli \\
+  docker-ce-rootless-extras \\
+  docker-compose-plugin
+EOF
 fi
 
 if ! groups $USER | grep -q "docker"; then
@@ -28,12 +36,5 @@ sudo usermod -aG docker $USER
 EOF
 fi
 
-! docker compose version &>/dev/null \
-  && info "Installing Docker Compose plugin..." \
-  || info "Updating Docker Compose plugin..."
-run <<EOF
-sudo apt-get install -y docker-compose-plugin &>/dev/null
-EOF
 {{ end -}}
-
 {{ end }}
