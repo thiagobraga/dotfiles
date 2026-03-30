@@ -4,8 +4,8 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Installing bun global packages..."
 
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+export BUN_INSTALL="${HOME}/.bun"
+export PATH="${BUN_INSTALL}/bin:${PATH}"
 
 run <<EOF
 bun add -g \\
@@ -50,7 +50,7 @@ opencode -v
 EOF
 
 run -n1 <<EOF
-vercel -v | head -n1
+vercel -v
 EOF
 
 run -n1 <<EOF
