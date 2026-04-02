@@ -9,7 +9,9 @@ thiagobraga dotfiles
 ========================================\n"
 
 printf "${IBLACK}isLinux:   $(status {{ .isLinux }})\n"
+printf "${IBLACK}isWindows: $(status {{ .isWindows }})\n"
 printf "${IBLACK}isUbuntu:  $(status {{ .isUbuntu }})\n"
 printf "${IBLACK}isWsl:     $(status {{ .isWsl }})\n"
 printf "${IBLACK}isDesktop: $(status {{ .isDesktop }})\n"
-printf "${IBLACK}isServer:  $(status {{ .isServer }})\n${NC}"
+printf "${IBLACK}isServer:  $(status {{ .isServer }})\n"
+printf "${IBLACK}isFull:    $(status {{ .isFull }})\n${NC}"

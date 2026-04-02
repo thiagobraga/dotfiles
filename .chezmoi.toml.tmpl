@@ -4,6 +4,7 @@
 
 # Detect if it's a Linux system
 {{ $isLinux := eq .chezmoi.os "linux" }}
+{{ $isWindows := eq .chezmoi.os "windows" }}
 
 # Detect Linux distro
 {{ $isUbuntu := false }}
@@ -47,11 +48,12 @@
 {{ else if env "CHEZMOI_FULL" }}
 {{   $isFull = eq (env "CHEZMOI_FULL") "true" }}
 {{ else }}
-{{   $isFull = promptBoolOnce . "isFull" "Enable full developer environment (nvm, bun, docker, self-hosting)?" false }}
+{{   $isFull = promptBoolOnce . "isFull" "Install full developer environment (nvm, bun, docker, self-hosting) t/f?" false }}
 {{ end }}
 
 [data]
   isLinux = {{ $isLinux }}
+  isWindows = {{ $isWindows }}
   isUbuntu = {{ $isUbuntu }}
   isWsl = {{ $isWsl }}
   isDesktop = {{ $isDesktop }}
