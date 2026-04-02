@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if .isLinux }}
+{{ if and .isLinux .isFull }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Self-hosting services (llama.cpp, paperless-ngx, glance)..."

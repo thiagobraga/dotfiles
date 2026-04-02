@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if and .isLinux .hasAVX }}
+{{ if and .isLinux .isFull .hasAVX }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Installing bun global packages..."
 

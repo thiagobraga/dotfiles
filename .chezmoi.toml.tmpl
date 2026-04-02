@@ -37,6 +37,19 @@
 {{   $hasAVX = (output "sh" "-c" "grep -q avx /proc/cpuinfo && echo true || echo false" | trim | eq "true") }}
 {{ end }}
 
+# =============================================================================
+# Custom Profile Configuration
+# =============================================================================
+# Detect if we should install the full environment (nvm, bun, docker, etc.)
+{{ $isFull := false }}
+{{ if hasKey . "isFull" }}
+{{   $isFull = .isFull }}
+{{ else if env "CHEZMOI_FULL" }}
+{{   $isFull = eq (env "CHEZMOI_FULL") "true" }}
+{{ else }}
+{{   $isFull = promptBoolOnce . "isFull" "Enable full developer environment (nvm, bun, docker, self-hosting)?" false }}
+{{ end }}
+
 [data]
   isLinux = {{ $isLinux }}
   isUbuntu = {{ $isUbuntu }}
@@ -44,6 +57,7 @@
   isDesktop = {{ $isDesktop }}
   isServer = {{ $isServer }}
   hasAVX = {{ $hasAVX }}
+  isFull = {{ $isFull }}
 
 [edit]
   apply = true

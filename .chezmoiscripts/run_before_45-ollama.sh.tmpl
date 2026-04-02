@@ -1,5 +1,5 @@
 #!/bin/bash
-{{ if .isLinux }}
+{{ if and .isLinux .isFull }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 if ! command -v ollama &>/dev/null; then

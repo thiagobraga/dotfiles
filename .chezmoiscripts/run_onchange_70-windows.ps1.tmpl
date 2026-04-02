@@ -1,0 +1,31 @@
+# -----------------------------------------------------------------------------
+# Windows App Installation (Winget)
+# -----------------------------------------------------------------------------
+{{ if eq .chezmoi.os "windows" }}
+
+$apps = @(
+  "BurntSushi.ripgrep.MSVC",
+  "Neovim.Neovim",
+  "JanDeDobbeleer.OhMyPosh",
+  "Microsoft.WindowsTerminal",
+  "Microsoft.VisualStudioCode"
+)
+
+foreach ($appId in $apps) {
+  $installed = winget list --id $appId --source winget 2>$null
+  if ($null -eq $installed) {
+    Write-Host "Installing $appId..." -ForegroundColor Cyan
+    winget install --id $appId --silent --accept-package-agreements --accept-source-agreements
+  } else {
+    Write-Host "$appId is already installed. Skipping." -ForegroundColor Gray
+  }
+}
+
+# -----------------------------------------------------------------------------
+# Oh My Posh PATH fix (Refresh env)
+# -----------------------------------------------------------------------------
+if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
+  oh-my-posh init pwsh --config "$env:USERPROFILE\.omp\jandedobbeleer.omp.json" | Out-String | Invoke-Expression
+}
+
+{{ end }}
