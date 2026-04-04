@@ -45,19 +45,26 @@ EOF
 
 info "Installing Nemo & plugins..."
 run <<EOF
-sudo apt-get install -y \
-  nemo \
-  nemo-fileroller \
-  nemo-font-manager \
-  nemo-gtkhash \
+sudo apt-get install -y \\
+  nemo \\
+  nemo-fileroller \\
+  nemo-font-manager \\
+  nemo-gtkhash \\
   &>/dev/null
 EOF
+
+
 
 info "Installing SmartGit..."
 run <<EOF
 wget -q https://www.syntevo.com/static/smart/download/smartgit/smartgit-24_1_2.deb -O /tmp/smartgit.deb
 sudo apt-get install -y /tmp/smartgit.deb &>/dev/null
 rm /tmp/smartgit.deb
+EOF
+
+info "Installing Pass..."
+run <<EOF
+sudo apt-get install -y pass &>/dev/null
 EOF
 
 info "Installing Spotify..."
