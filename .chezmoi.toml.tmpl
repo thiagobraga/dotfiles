@@ -1,9 +1,7 @@
-# =============================================================================
-# OS Detection
-# =============================================================================
-
 # Detect if it's a Linux system
 {{ $isLinux := eq .chezmoi.os "linux" }}
+
+# Detect if it's a Windows system
 {{ $isWindows := eq .chezmoi.os "windows" }}
 
 # Detect Linux distro
@@ -14,9 +12,6 @@
 {{   end }}
 {{ end }}
 
-# =============================================================================
-# System Environment Detection (WSL, Desktop, Server)
-# =============================================================================
 # Detect if we are running under Windows Subsystem for Linux (WSL)
 {{ $isWsl := false }}
 {{ if hasKey .chezmoi.kernel "osrelease" }}
@@ -38,9 +33,6 @@
 {{   $hasAVX = (output "sh" "-c" "grep -q avx /proc/cpuinfo && echo true || echo false" | trim | eq "true") }}
 {{ end }}
 
-# =============================================================================
-# Custom Profile Configuration
-# =============================================================================
 # Detect if we should install the full environment (nvm, bun, docker, etc.)
 {{ $isFull := false }}
 {{ if hasKey . "isFull" }}
@@ -48,7 +40,7 @@
 {{ else if env "CHEZMOI_FULL" }}
 {{   $isFull = eq (env "CHEZMOI_FULL") "true" }}
 {{ else }}
-{{   $isFull = promptBoolOnce . "isFull" "Install full developer environment (nvm, bun, docker, self-hosting) t/f?" false }}
+{{   $isFull = promptBoolOnce . "isFull" "Install full developer environment (nvm, bun, docker, self-hosting) true/false?" false }}
 {{ end }}
 
 [data]
