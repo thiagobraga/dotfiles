@@ -1,5 +1,7 @@
 {{ if ne .chezmoi.os "windows" }}
 AppData/**
+Documents/**
+.chezmoiscripts/*.ps1
 {{ end }}
 
 .oh-my-zsh/cache/**

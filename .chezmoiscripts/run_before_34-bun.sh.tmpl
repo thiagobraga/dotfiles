@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if and .isLinux .hasAVX }}
+{{ if and .isLinux .hasAVX .isFull }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 if ! command -v bun &> /dev/null; then
