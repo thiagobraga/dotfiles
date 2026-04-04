@@ -82,11 +82,20 @@ sudo apt-get install -y terminator &>/dev/null
 EOF
 
 info "Installing VS Code..."
-run <<EOF
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
-echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
-sudo apt-get update &>/dev/null
-sudo apt-get install -y code &>/dev/null
+run <<EOX
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg &>/dev/null \\
+  && sudo install -D -o root -g root -m 644 microsoft.gpg /usr/share/keyrings/microsoft.gpg &>/dev/null \\
+  && rm -f microsoft.gpg
+sudo tee /etc/sources.list.d/vscode.sources > /dev/null <<EOF
+Types: deb
+URIs: https://packages.microsoft.com/repos/code
+Suites: stable
+Components: main
+Architectures: amd64,arm64,armhf
+Signed-By: /usr/share/keyrings/microsoft.gpg
 EOF
+sudo apt update &>/dev/null \\
+  && sudo apt install -y code &>/dev/null
+EOX
 
 {{ end }}
