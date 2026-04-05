@@ -22,6 +22,31 @@ foreach ($appId in $apps) {
 }
 
 # -----------------------------------------------------------------------------
+# Fira Code Nerd Font Installation
+# -----------------------------------------------------------------------------
+Write-Host "Installing Fira Code Nerd Font..." -ForegroundColor Cyan
+$fontVersion = "3.2.1"
+$fontUrl = "https://github.com/ryanoasis/nerd-fonts/releases/download/v$fontVersion/FiraCode.zip"
+$tempPath = "$env:TEMP\FiraCode.zip"
+$extractPath = "$env:TEMP\FiraCode"
+
+# Download and extract
+Invoke-WebRequest -Uri $fontUrl -OutFile $tempPath -UseBasicParsing
+Expand-Archive -Path $tempPath -DestinationPath $extractPath -Force
+
+# Install fonts
+$shell = New-Object -ComObject Shell.Application
+$fontsFolder = $shell.Namespace(0x14)  # 0x14 = Fonts folder
+Get-ChildItem -Path $extractPath -Filter "*.ttf" | ForEach-Object {
+  $fontsFolder.CopyHere($_.FullName, 0x10)  # 0x10 = overwrite
+}
+
+# Cleanup
+Remove-Item $tempPath -Force
+Remove-Item $extractPath -Recurse -Force
+Write-Host "Fira Code Nerd Font installed." -ForegroundColor Green
+
+# -----------------------------------------------------------------------------
 # Oh My Posh PATH fix (Refresh env)
 # -----------------------------------------------------------------------------
 if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {

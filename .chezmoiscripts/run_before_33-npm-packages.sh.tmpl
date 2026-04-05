@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if and .isLinux .isFull }}
+{{ if and .isLinux .isFull (not .hasAVX) }}
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Installing npm global packages (fallback for non-AVX hardware)..."
 

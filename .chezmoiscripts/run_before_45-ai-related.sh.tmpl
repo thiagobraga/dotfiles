@@ -12,4 +12,14 @@ else
   success
 fi
 
+if ! command -v llmfit &>/dev/null; then
+  info "Installing llmfit..."
+  run <<EOF
+curl -fsSL https://llmfit.axjns.dev/install.sh | sh -s -- --local
+EOF
+else
+  info "llmfit is already installed"
+  success
+fi
+
 {{ end }}
