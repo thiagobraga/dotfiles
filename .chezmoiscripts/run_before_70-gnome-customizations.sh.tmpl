@@ -9,6 +9,11 @@ sudo apt install -y gnome-tweaks gnome-shell-extensions
 EOF
 info "Configuring GNOME settings..."
 
+# Disable screen dimming
+run <<EOF
+gsettings set org.gnome.settings-daemon.plugins.power idle-dim false
+EOF
+
 # Sounds > Alert Sound > None
 run <<EOF
 gsettings set org.gnome.desktop.sound theme-name ""
@@ -49,6 +54,19 @@ gsettings set org.gnome.shell.extensions.dash-to-dock dock-position "BOTTOM"
 EOF
 fi
 
+# Dash to Panel extension
+if gsettings list-schemas | grep -q "org.gnome.shell.extensions.dash-to-panel"; then
+  run <<EOF
+gsettings set org.gnome.shell.extensions.dash-to-panel panel-position 'BOTTOM'
+EOF
+  run <<EOF
+gsettings set org.gnome.shell.extensions.dash-to-panel show-show-apps-button true
+EOF
+  run <<EOF
+gsettings set org.gnome.shell.extensions.dash-to-panel show-appmenu false
+EOF
+fi
+
 # Enhanced Tiling > Tiling Popup: False
 if gsettings list-schemas | grep -q "org.gnome.shell.extensions.tiling-assistant"; then
   run <<EOF
@@ -79,7 +97,7 @@ run <<EOF
 gsettings set org.gnome.desktop.peripherals.touchpad click-method "fingers"
 EOF
 run <<EOF
-gsettings set org.gnome.desktop.peripherals.touchpad scroll-method "two-finger-scrolling"
+gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
 EOF
 run <<EOF
 gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
@@ -108,9 +126,6 @@ EOF
 # Disable screensaver
 run <<EOF
 gsettings set org.gnome.desktop.screensaver idle-activation-enabled false
-EOF
-run <<EOF
-gsettings set org.gnome.desktop.screensaver lock-down false
 EOF
 run <<EOF
 gsettings set org.gnome.desktop.screensaver logout-enabled false
