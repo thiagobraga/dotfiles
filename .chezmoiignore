@@ -9,3 +9,5 @@ Documents/**
 README.md
 .editorconfig
 .gitattributes
+CLAUDE.md
+.claude

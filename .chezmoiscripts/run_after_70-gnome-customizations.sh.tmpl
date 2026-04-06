@@ -1,0 +1,67 @@
+#!/bin/bash
+
+{{ if and .isLinux .isDesktop }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+info "Installing GNOME Tweaks and Extensions..."
+run apt install -y gnome-tweaks gnome-shell-extensions
+
+info "Configuring GNOME settings..."
+
+# Sounds > Alert Sound > None
+run gsettings set org.gnome.desktop.sound theme-name ""
+
+# Power > Power Mode > Performance (if available)
+if gsettings list-schemas | grep -q "org.gnome.settings-daemon.plugins.power"; then
+  # Try power-saver as false and sleep-inactive-ac-timeout to 0 for performance-like behavior
+  run gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
+fi
+
+# Ubuntu Desktop settings (using Ubuntu Dock and Ubuntu Desktop extensions)
+# Desktop Icons
+if gsettings list-schemas | grep -q "org.gnome.shell.extensions.ding"; then
+  run gsettings set org.gnome.shell.extensions.ding icon-size "standard"
+  run gsettings set org.gnome.shell.extensions.ding start-corner "top-left"
+  run gsettings set org.gnome.shell.extensions.ding show-home false
+fi
+
+# Dock settings
+if gsettings list-schemas | grep -q "org.gnome.shell.extensions.dash-to-dock"; then
+  run gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 26
+  run gsettings set org.gnome.shell.extensions.dash-to-dock dock-position "bottom"
+fi
+
+# Enhanced Tiling > Tiling Popup: False
+if gsettings list-schemas | grep -q "org.gnome.shell.extensions.tiling-assistant"; then
+  run gsettings set org.gnome.shell.extensions.tiling-assistant enable-tiling-popup false
+fi
+
+# Search > disable Characters, Clocks, Passwords and keys
+if gsettings list-schemas | grep -q "org.gnome.desktop.search-providers"; then
+  run gsettings set org.gnome.desktop.search-providers disabled "['org.gnome.Characters.desktop', 'org.gnome.clocks.desktop', 'org.gnome.seahorse.Application.desktop']"
+fi
+
+# Sharing > Device Name: thiago-ubuntu
+run gsettings set org.gnome.settings-daemon.plugins.sharing vnc-name "thiago-ubuntu"
+run gsettings set org.gnome.settings-daemon.plugins.sharing service-enabled true
+
+# Mouse and Touchpad settings
+# Touchpad: Secondary Click (Two Finger), Scroll (Two Finger), Direction (Traditional/Natural off)
+run gsettings set org.gnome.desktop.peripherals.touchpad click-method "fingers"
+run gsettings set org.gnome.desktop.peripherals.touchpad scroll-method "two-finger-scrolling"
+run gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
+
+# Mouse: Scroll Direction Traditional (Natural off)
+run gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
+
+# Accessibility > Reduce Animation: true
+run gsettings set org.gnome.desktop.interface enable-animations false
+
+# Privacy & Security > Blank Screen Delay: Never (0)
+run gsettings set org.gnome.desktop.session idle-delay 0
+
+# Privacy & Security > Automatic Screen Lock: false
+run gsettings set org.gnome.desktop.screensaver lock-enabled false
+
+success "GNOME customizations applied"
+{{ end }}

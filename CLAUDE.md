@@ -134,3 +134,10 @@ When adding new setup steps:
 4. Use the `run` function for command execution
 5. Wrap OS-specific logic in template conditionals: `{{ if .isUbuntu }}...{{ end }}`
 6. For commands needing `isFull` context, check: `{{ if and .isLinux .isFull }}`
+
+## Shortcuts
+
+- Some aliases I would like to trigger git commit (and push):
+  - `gcm`, `gcms`, `gcmsg`, or `gc` -> commit with message
+  - `gcmp`, `gcmsgp`, or `gcm e p` -> commit and push
+  - `gp` -> push
