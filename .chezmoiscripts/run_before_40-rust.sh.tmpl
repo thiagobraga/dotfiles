@@ -1,0 +1,10 @@
+#!/bin/bash
+
+{{ if and .isLinux .isFull }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+info "Installing Rust..."
+run <<EOF
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path &>/dev/null
+EOF
+{{ end }}
