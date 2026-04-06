@@ -1,0 +1,118 @@
+#!/bin/bash
+
+{{ if and .isLinux .isDesktop }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+info "Installing GNOME Tweaks and Extensions..."
+run <<EOF
+sudo apt install -y gnome-tweaks gnome-shell-extensions
+EOF
+info "Configuring GNOME settings..."
+
+# Sounds > Alert Sound > None
+run <<EOF
+gsettings set org.gnome.desktop.sound theme-name ""
+EOF
+
+# Power > Power Mode > Performance (if available)
+if gsettings list-schemas | grep -q "org.gnome.settings-daemon.plugins.power"; then
+  # Try power-saver as false and sleep-inactive-ac-timeout to 0 for performance-like behavior
+  run <<EOF
+  gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
+EOF
+  run <<EOF
+  gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
+EOF
+fi
+
+# Ubuntu Desktop settings (using Ubuntu Dock and Ubuntu Desktop extensions)
+# Desktop Icons
+if gsettings list-schemas | grep -q "org.gnome.shell.extensions.ding"; then
+  run <<EOF
+gsettings set org.gnome.shell.extensions.ding icon-size "standard"
+EOF
+  run <<EOF
+gsettings set org.gnome.shell.extensions.ding start-corner "top-left"
+EOF
+  run <<EOF
+gsettings set org.gnome.shell.extensions.ding show-home false
+EOF
+fi
+
+# Dock settings
+if gsettings list-schemas | grep -q "org.gnome.shell.extensions.dash-to-dock"; then
+  run <<EOF
+gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 26
+EOF
+  run <<EOF
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-position "BOTTOM"
+EOF
+fi
+
+# Enhanced Tiling > Tiling Popup: False
+if gsettings list-schemas | grep -q "org.gnome.shell.extensions.tiling-assistant"; then
+  run <<EOF
+gsettings set org.gnome.shell.extensions.tiling-assistant enable-tiling-popup false
+EOF
+fi
+
+# Search > disable Characters, Clocks, Passwords and keys
+if gsettings list-schemas | grep -q "org.gnome.desktop.search-providers"; then
+  run <<EOF
+gsettings set org.gnome.desktop.search-providers disabled "['org.gnome.Characters.desktop', 'org.gnome.clocks.desktop', 'org.gnome.seahorse.Application.desktop']"
+EOF
+fi
+
+# Sharing > Device Name: thiago-ubuntu (if schema exists)
+if gsettings list-schemas | grep -q "org.gnome.settings-daemon.plugins.sharing"; then
+  run <<EOF
+gsettings set org.gnome.settings-daemon.plugins.sharing vnc-name "thiago-ubuntu"
+EOF
+  run <<EOF
+gsettings set org.gnome.settings-daemon.plugins.sharing service-enabled true
+EOF
+fi
+
+# Mouse and Touchpad settings
+# Touchpad: Secondary Click (Two Finger), Scroll (Two Finger), Direction (Traditional/Natural off)
+run <<EOF
+gsettings set org.gnome.desktop.peripherals.touchpad click-method "fingers"
+EOF
+run <<EOF
+gsettings set org.gnome.desktop.peripherals.touchpad scroll-method "two-finger-scrolling"
+EOF
+run <<EOF
+gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
+EOF
+
+# Mouse: Scroll Direction Traditional (Natural off)
+run <<EOF
+gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
+EOF
+
+# Accessibility > Reduce Animation: true
+run <<EOF
+gsettings set org.gnome.desktop.interface enable-animations false
+EOF
+
+# Privacy & Security > Blank Screen Delay: Never (0)
+run <<EOF
+gsettings set org.gnome.desktop.session idle-delay 0
+EOF
+
+# Privacy & Security > Automatic Screen Lock: false
+run <<EOF
+gsettings set org.gnome.desktop.screensaver lock-enabled false
+EOF
+
+# Disable screensaver
+run <<EOF
+gsettings set org.gnome.desktop.screensaver idle-activation-enabled false
+EOF
+run <<EOF
+gsettings set org.gnome.desktop.screensaver lock-down false
+EOF
+run <<EOF
+gsettings set org.gnome.desktop.screensaver logout-enabled false
+EOF
+{{ end }}
