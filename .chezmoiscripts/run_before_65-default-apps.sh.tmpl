@@ -1,0 +1,50 @@
+#!/bin/bash
+
+{{ if and .isLinux .isDesktop }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+info "Setting default applications..."
+
+# Install Nemo file manager
+run <<EOF
+sudo apt install -y nemo nemo-fileroller
+EOF
+
+# Set Nemo as default file manager
+run <<EOF
+xdg-mime default nemo.desktop inode/directory application/x-gnome-saved-search
+EOF
+
+# Disable GNOME's default Files (Nautilus) handling
+run <<EOF
+gsettings set org.gnome.desktop.background show-desktop-icons false || true
+EOF
+
+# Set Terminator as default terminal
+run <<EOF
+sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/terminator 60
+EOF
+run <<EOF
+sudo update-alternatives --set x-terminal-emulator /usr/bin/terminator
+EOF
+
+# Set vi (nvim) as default editor via update-alternatives
+run <<EOF
+sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
+EOF
+run <<EOF
+sudo update-alternatives --set editor /usr/bin/nvim
+EOF
+
+# Also ensure EDITOR and VISUAL are set system-wide in /etc/environment.d/
+run <<EOF
+sudo mkdir -p /etc/environment.d/
+EOF
+run <<EOF
+echo 'EDITOR=nvim' | sudo tee /etc/environment.d/90-editor.conf
+EOF
+run <<EOF
+echo 'VISUAL=nvim' | sudo tee -a /etc/environment.d/90-editor.conf
+EOF
+
+{{ end }}
