@@ -1,61 +1,61 @@
-# Detect if it's a Linux system
-{{ $isLinux := eq .chezmoi.os "linux" }}
+{{/* Detect if it's a Linux system */}}
+{{- $isLinux := eq .chezmoi.os "linux" -}}
 
-# Detect if it's a Windows system
-{{ $isWindows := eq .chezmoi.os "windows" }}
+{{/* Detect if it's a Windows system */}}
+{{- $isWindows := eq .chezmoi.os "windows" -}}
 
-# Detect Linux distro
-{{ $isUbuntu := false }}
-{{ if $isLinux }}
-{{   if hasKey .chezmoi.osRelease "id" }}
-{{     $isUbuntu = eq .chezmoi.osRelease.id "ubuntu" }}
-{{   end }}
-{{ end }}
+{{/* Detect Linux distro */}}
+{{- $isUbuntu := false -}}
+{{- if $isLinux -}}
+{{-   if hasKey .chezmoi.osRelease "id" -}}
+{{-     $isUbuntu = eq .chezmoi.osRelease.id "ubuntu" -}}
+{{-   end -}}
+{{- end -}}
 
-# Detect if we are running under Windows Subsystem for Linux (WSL)
-{{ $isWsl := false }}
-{{ if hasKey .chezmoi.kernel "osrelease" }}
-{{   $isWsl = contains "microsoft" .chezmoi.kernel.osrelease }}
-{{ end }}
+{{/* Detect if we are running under Windows Subsystem for Linux (WSL) */}}
+{{- $isWsl := false -}}
+{{- if hasKey .chezmoi.kernel "osrelease" -}}
+{{-   $isWsl = contains "microsoft" .chezmoi.kernel.osrelease -}}
+{{- end -}}
 
-# Detect if we are running in a desktop environment
-{{ $isDesktop := false }}
-{{ if and (not $isWsl) (or (lookPath "gnome-shell") (lookPath "gnome-session") (lookPath "plasmashell") (lookPath "xfce4-session") (lookPath "sway") (lookPath "i3")) }}
-{{   $isDesktop = true }}
-{{ end }}
+{{/* Detect if we are running in a desktop environment */}}
+{{- $isDesktop := false -}}
+{{- if and (not $isWsl) (or (lookPath "gnome-shell") (lookPath "gnome-session") (lookPath "plasmashell") (lookPath "xfce4-session") (lookPath "sway") (lookPath "i3")) -}}
+{{-   $isDesktop = true -}}
+{{- end -}}
 
-# Detect if we are running in a headless server environment
-{{ $isServer := and (not $isWsl) (not $isDesktop) }}
+{{/* Detect if we are running in a headless server environment */}}
+{{- $isServer := and (not $isWsl) (not $isDesktop) -}}
 
-# Detect if AVX instructions are supported
-{{ $hasAVX := false }}
-{{ if $isLinux }}
-{{   $hasAVX = (output "sh" "-c" "grep -q avx /proc/cpuinfo && echo true || echo false" | trim | eq "true") }}
-{{ end }}
+{{/* Detect if AVX instructions are supported */}}
+{{- $hasAVX := false -}}
+{{- if $isLinux -}}
+{{-   $hasAVX = (output "sh" "-c" "grep -q avx /proc/cpuinfo && echo true || echo false" | trim | eq "true") -}}
+{{- end -}}
 
-# Detect if we should install the full environment (nvm, bun, docker, etc.)
-{{ $isFull := false }}
-{{ if hasKey . "isFull" }}
-{{   $isFull = .isFull }}
-{{ else if env "CHEZMOI_FULL" }}
-{{   $isFull = eq (env "CHEZMOI_FULL") "true" }}
-{{ else }}
-{{   $isFull = promptBoolOnce . "isFull" "Install full developer environment (nvm, bun, docker, self-hosting) true/false?" false }}
-{{ end }}
+{{/* Detect if we should install the full environment (nvm, bun, docker, etc.) */}}
+{{- $isFull := false -}}
+{{- if hasKey . "isFull" -}}
+{{-   $isFull = .isFull -}}
+{{- else if env "CHEZMOI_FULL" -}}
+{{-   $isFull = eq (env "CHEZMOI_FULL") "true" -}}
+{{- else -}}
+{{-   $isFull = promptBoolOnce . "isFull" "Install full developer environment (nvm, bun, docker, self-hosting) true/false?" false -}}
+{{- end -}}
 
 [data]
-  isLinux = {{ $isLinux }}
-  isWindows = {{ $isWindows }}
-  isUbuntu = {{ $isUbuntu }}
-  isWsl = {{ $isWsl }}
-  isDesktop = {{ $isDesktop }}
-  isServer = {{ $isServer }}
-  hasAVX = {{ $hasAVX }}
-  isFull = {{ $isFull }}
+isLinux = {{ $isLinux }}
+isWindows = {{ $isWindows }}
+isUbuntu = {{ $isUbuntu }}
+isWsl = {{ $isWsl }}
+isDesktop = {{ $isDesktop }}
+isServer = {{ $isServer }}
+hasAVX = {{ $hasAVX }}
+isFull = {{ $isFull }}
 
 [edit]
-  apply = true
+apply = true
 
 [git]
-  autoCommit = true
-  autoPush = true
+autoCommit = true
+autoPush = true
