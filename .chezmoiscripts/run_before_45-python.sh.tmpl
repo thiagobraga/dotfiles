@@ -1,20 +1,16 @@
 #!/bin/bash
 
 {{ if and .isLinux .isFull }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Installing Python, pip, venv..."
-run <<EOF
 sudo apt install -y \\
   python3 \\
   python-is-python3 \\
   python3-pip \\
   python3-venv \\
   &>/dev/null
-EOF
 
 info "Installing pyenv..."
-run <<EOF
 sudo apt install -y \\
   libbz2-dev \\
   libffi-dev \\
@@ -31,29 +27,20 @@ sudo apt install -y \\
   &>/dev/null
 rm -rf $HOME/.pyenv
 curl -fsSL https://pyenv.run | bash &>/dev/null
-EOF
 
 info "Installing pipx..."
-run <<EOF
 sudo apt install -y pipx &>/dev/null
 pipx ensurepath &>/dev/null
-EOF
 
 info "Installing colo via pipx..."
-run <<EOF
 pipx install colo &>/dev/null
-EOF
 
 if ! command -v uv &> /dev/null; then
   info "Installing uv..."
-  run <<EOF
-curl -fsSL https://astral.sh/uv/install.sh | sh &>/dev/null
-EOF
+  curl -fsSL https://astral.sh/uv/install.sh | sh &>/dev/null
 else
   info "uv is already installed. Updating..."
-  run <<EOF
-uv self update &>/dev/null
-EOF
+  uv self update &>/dev/null
 fi
 
 {{ end }}

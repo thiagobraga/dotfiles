@@ -1,12 +1,10 @@
 #!/bin/bash
 
 {{ if and .isLinux .isFull .hasAVX }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 info "Installing bun global packages..."
 
 export PATH="${HOME}/.bun/bin:${PATH}"
 
-run <<EOF
 bun add -g \\
   @anthropic-ai/claude-code \\
   @kilocode/cli \\
@@ -17,50 +15,29 @@ bun add -g \\
   vercel \\
   yarn \\
   &>/dev/null
-EOF
 
 info "Testing bun global packages..."
-run -n1 <<EOF
 bun -v
-EOF
 
-run -n1 <<EOF
 claude -v
-EOF
 
-run -n1 <<EOF
 browser-sync --version
-EOF
 
-run -n1 <<EOF
 kilo --version
-EOF
 
-run -n1 <<EOF
 n8n -v
-EOF
 
-run -n1 <<EOF
 openclaw -v
-EOF
 
-run -n1 <<EOF
 opencode -v
-EOF
 
-run -n1 <<EOF
 vercel -v
-EOF
 
-run -n1 <<EOF
 yarn -v
-EOF
 success
 
 info "Installing Antigravity Awesome Skills..."
-run <<EOF
 npx antigravity-awesome-skills &>/dev/null
 test -d ~/.gemini/antigravity/skills && echo "Skills installed"
-EOF
 
 {{ end }}

@@ -1,7 +1,6 @@
 #!/bin/bash
 
 {{ if .isLinux }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 PLUGINS_DIR="$ZSH_CUSTOM/plugins"
@@ -21,14 +20,10 @@ for plugin_info in "${plugins[@]}"; do
 
   if [ ! -d "$target_dir" ]; then
     info "Installing plugin: $name..."
-    run <<EOF
-git clone "$url" "$target_dir"
-EOF
+    git clone "$url" "$target_dir"
   else
     info "Updating plugin: $name..."
-    run <<EOF
-git -C "$target_dir" pull
-EOF
+    git -C "$target_dir" pull
   fi
 done
 

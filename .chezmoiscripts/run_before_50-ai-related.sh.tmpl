@@ -1,12 +1,9 @@
 #!/bin/bash
 {{ if and .isLinux .isFull }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 if ! command -v ollama &>/dev/null; then
   info "Installing Ollama..."
-  run <<EOF
-curl -fsSL https://ollama.com/install.sh | sh
-EOF
+  curl -fsSL https://ollama.com/install.sh | sh
 else
   info "Ollama is already installed"
   success
@@ -14,9 +11,7 @@ fi
 
 if ! command -v llmfit &>/dev/null; then
   info "Installing llmfit..."
-  run <<EOF
-curl -fsSL https://llmfit.axjns.dev/install.sh | sh -s -- --local
-EOF
+  curl -fsSL https://llmfit.axjns.dev/install.sh | sh -s -- --local
 else
   info "llmfit is already installed"
   success

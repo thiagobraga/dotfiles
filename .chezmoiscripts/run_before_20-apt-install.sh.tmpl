@@ -1,10 +1,8 @@
 #!/bin/bash
 
 {{ if .isUbuntu }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Installing essential apt packages..."
-run <<EOF
 sudo apt-get install -y \\
   apt-transport-https \\
   bat \\
@@ -28,6 +26,5 @@ sudo apt-get install -y \\
   zsh \\
   zstd \\
   &>/dev/null
-EOF
 
 {{ end }}

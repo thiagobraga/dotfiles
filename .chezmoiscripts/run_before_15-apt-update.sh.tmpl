@@ -1,16 +1,11 @@
 #!/bin/bash
 
 {{ if .isLinux }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Updating apt repositories..."
-run <<EOF
 sudo apt-get update
-EOF
 
 info "Upgrading installed apt packages..."
-run <<EOF
 sudo apt-get upgrade -y &>/dev/null
-EOF
 
 {{ end }}

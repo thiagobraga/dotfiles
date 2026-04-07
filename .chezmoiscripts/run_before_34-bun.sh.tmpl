@@ -1,18 +1,13 @@
 #!/bin/bash
 
 {{ if and .isLinux .hasAVX .isFull }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 if ! command -v bun &> /dev/null; then
   info "Installing Bun..."
-  run <<'EOF'
-curl -fsSL https://bun.sh/install | bash &>/dev/null
-EOF
+  curl -fsSL https://bun.sh/install | bash &>/dev/null
 else
   info "Bun is already installed. Updating..."
-  run <<EOF
-bun upgrade &>/dev/null
-EOF
+  bun upgrade &>/dev/null
 fi
 
 {{ end }}

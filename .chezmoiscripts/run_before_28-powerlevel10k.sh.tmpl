@@ -1,7 +1,6 @@
 #!/bin/bash
 
 {{ if .isLinux }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 THEMES_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes"
 TARGET_DIR="$THEMES_DIR/powerlevel10k"
@@ -10,14 +9,10 @@ mkdir -p "$THEMES_DIR"
 
 if [ ! -d "$TARGET_DIR" ]; then
   info "Installing Powerlevel10k theme..."
-  run <<EOF
-git clone https://github.com/romkatv/powerlevel10k.git "$TARGET_DIR"
-EOF
+  git clone https://github.com/romkatv/powerlevel10k.git "$TARGET_DIR"
 else
   info "Updating Powerlevel10k theme..."
-  run <<EOF
-git -C "$TARGET_DIR" pull
-EOF
+  git -C "$TARGET_DIR" pull
 fi
 
 {{ end }}
