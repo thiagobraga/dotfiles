@@ -1,8 +1,10 @@
 #!/bin/bash
 
 {{ if .isLinux }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Setting zsh as default shell..."
 sudo chsh -s "$(which zsh)" "{{ .chezmoi.username }}"
 
+success
 {{ end }}

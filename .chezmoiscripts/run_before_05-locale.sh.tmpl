@@ -1,6 +1,7 @@
 #!/bin/bash
 
 {{ if .isLinux }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Generating en_US.UTF-8 locale..."
 sudo locale-gen en_US.UTF-8
@@ -8,4 +9,5 @@ sudo locale-gen en_US.UTF-8
 info "Updating system default locales..."
 sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
+success
 {{ end }}

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 {{ if and .isLinux .isDesktop }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Setting default applications..."
 
@@ -26,4 +27,5 @@ sudo mkdir -p /etc/environment.d/
 echo 'EDITOR=nvim' | sudo tee /etc/environment.d/90-editor.conf
 echo 'VISUAL=nvim' | sudo tee -a /etc/environment.d/90-editor.conf
 
+success
 {{ end }}

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 {{ if .isLinux }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Updating apt repositories..."
 sudo apt-get update
@@ -8,4 +9,5 @@ sudo apt-get update
 info "Upgrading installed apt packages..."
 sudo apt-get upgrade -y &>/dev/null
 
+success
 {{ end }}
