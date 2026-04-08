@@ -26,5 +26,24 @@ make -C "${DASH_TO_PANEL_DIR}" install
 info "Enabling Dash to Panel..."
 gnome-extensions enable dash-to-panel@jderose9.github.com || true
 
+info "Configuring Desktop Icons extension..."
+if gsettings list-schemas | grep -q "org.gnome.shell.extensions.ding"; then
+  gsettings set org.gnome.shell.extensions.ding icon-size "standard"
+  gsettings set org.gnome.shell.extensions.ding start-corner "top-left"
+  gsettings set org.gnome.shell.extensions.ding show-home false
+fi
+
+info "Configuring Dash to Panel extension..."
+if gsettings list-schemas | grep -q "org.gnome.shell.extensions.dash-to-panel"; then
+  gsettings set org.gnome.shell.extensions.dash-to-panel panel-position 'BOTTOM'
+  gsettings set org.gnome.shell.extensions.dash-to-panel show-show-apps-button true
+  gsettings set org.gnome.shell.extensions.dash-to-panel show-appmenu false
+fi
+
+info "Configuring Tiling Assistant extension..."
+if gsettings list-schemas | grep -q "org.gnome.shell.extensions.tiling-assistant"; then
+  gsettings set org.gnome.shell.extensions.tiling-assistant enable-tiling-popup false
+fi
+
 success
 {{ end }}

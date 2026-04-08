@@ -21,26 +21,6 @@ if gsettings list-schemas | grep -q "org.gnome.settings-daemon.plugins.power"; t
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
 fi
 
-# Ubuntu Desktop settings
-# Desktop Icons
-if gsettings list-schemas | grep -q "org.gnome.shell.extensions.ding"; then
-  gsettings set org.gnome.shell.extensions.ding icon-size "standard"
-  gsettings set org.gnome.shell.extensions.ding start-corner "top-left"
-  gsettings set org.gnome.shell.extensions.ding show-home false
-fi
-
-# Dash to Panel settings
-if gsettings list-schemas | grep -q "org.gnome.shell.extensions.dash-to-panel"; then
-  gsettings set org.gnome.shell.extensions.dash-to-panel panel-position 'BOTTOM'
-  gsettings set org.gnome.shell.extensions.dash-to-panel show-show-apps-button true
-  gsettings set org.gnome.shell.extensions.dash-to-panel show-appmenu false
-fi
-
-# Enhanced Tiling > Tiling Popup: False
-if gsettings list-schemas | grep -q "org.gnome.shell.extensions.tiling-assistant"; then
-  gsettings set org.gnome.shell.extensions.tiling-assistant enable-tiling-popup false
-fi
-
 # Search > disable Characters, Clocks, Passwords and keys
 if gsettings list-schemas | grep -q "org.gnome.desktop.search-providers"; then
   gsettings set org.gnome.desktop.search-providers disabled "['org.gnome.Characters.desktop', 'org.gnome.clocks.desktop', 'org.gnome.seahorse.Application.desktop']"
