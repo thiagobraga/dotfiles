@@ -4,12 +4,11 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Self-hosting services (llama.cpp, paperless-ngx, glance)..."
-
 export SELF_HOSTED_DIR="${HOME}/projects/self-hosted"
 mkdir -p "${SELF_HOSTED_DIR}/llama.cpp"
 mkdir -p "${SELF_HOSTED_DIR}/paperless-ngx"
 mkdir -p "${SELF_HOSTED_DIR}/glance"
-
+success
 if ! docker image inspect ghcr.io/ggml-org/llama.cpp:server &>/dev/null; then
   info "Pulling llama.cpp server Docker image..."
   docker pull ghcr.io/ggml-org/llama.cpp:server

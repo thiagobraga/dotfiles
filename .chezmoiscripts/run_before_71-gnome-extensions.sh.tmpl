@@ -9,9 +9,8 @@ DASH_TO_PANEL_REPO="https://github.com/home-sweet-gnome/dash-to-panel.git"
 
 info "Installing GNOME Shell extension dependencies..."
 sudo apt install -y git make gettext gnome-shell-extensions
-
 mkdir -p "${EXTENSIONS_DIR}"
-
+success
 if [ ! -d "${DASH_TO_PANEL_DIR}/.git" ]; then
   info "Cloning Dash to Panel from GitHub..."
   git clone "${DASH_TO_PANEL_REPO}" "${DASH_TO_PANEL_DIR}"
@@ -22,11 +21,12 @@ fi
 
 info "Installing Dash to Panel extension..."
 make -C "${DASH_TO_PANEL_DIR}" install
-
+success
 info "Enabling Dash to Panel..."
 gnome-extensions enable dash-to-panel@jderose9.github.com || true
-
+success
 info "Configuring Desktop Icons extension..."
+success
 if gsettings list-schemas | grep -q "org.gnome.shell.extensions.ding"; then
   gsettings set org.gnome.shell.extensions.ding icon-size "standard"
   gsettings set org.gnome.shell.extensions.ding start-corner "top-left"
@@ -34,6 +34,7 @@ if gsettings list-schemas | grep -q "org.gnome.shell.extensions.ding"; then
 fi
 
 info "Configuring Dash to Panel extension..."
+success
 if gsettings list-schemas | grep -q "org.gnome.shell.extensions.dash-to-panel"; then
   gsettings set org.gnome.shell.extensions.dash-to-panel panel-position 'BOTTOM'
   gsettings set org.gnome.shell.extensions.dash-to-panel show-show-apps-button true
@@ -41,6 +42,7 @@ if gsettings list-schemas | grep -q "org.gnome.shell.extensions.dash-to-panel"; 
 fi
 
 info "Configuring Tiling Assistant extension..."
+success
 if gsettings list-schemas | grep -q "org.gnome.shell.extensions.tiling-assistant"; then
   gsettings set org.gnome.shell.extensions.tiling-assistant enable-tiling-popup false
 fi

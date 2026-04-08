@@ -5,9 +5,8 @@ source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Updating apt repositories..."
 sudo apt-get update
-
+success
 info "Upgrading installed apt packages..."
 sudo apt-get upgrade -y &>/dev/null
-
 success
 {{ end }}

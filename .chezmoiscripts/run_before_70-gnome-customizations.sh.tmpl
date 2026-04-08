@@ -5,16 +5,14 @@ source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Installing GNOME Tweaks and Extensions..."
 sudo apt install -y gnome-tweaks gnome-shell-extensions
-
+success
 info "Configuring GNOME settings..."
-
 # Disable screen dimming
 gsettings set org.gnome.settings-daemon.plugins.power idle-dim false
-
 # Sounds > Alert Sound > None
 gsettings set org.gnome.desktop.sound theme-name ""
-
 # Power > Power Mode > Performance (if available)
+success
 if gsettings list-schemas | grep -q "org.gnome.settings-daemon.plugins.power"; then
   # Try power-saver as false and sleep-inactive-ac-timeout to 0 for performance-like behavior
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0

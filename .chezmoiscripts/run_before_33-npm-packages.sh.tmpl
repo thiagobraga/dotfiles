@@ -4,11 +4,9 @@
 source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Installing npm global packages (fallback for non-AVX hardware)..."
-
 # Ensure nvm-installed node/npm is in PATH
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
 npm i -g \
   @kilocode/cli \
   browser-sync \
@@ -18,7 +16,7 @@ npm i -g \
   vercel \
   yarn \
   &>/dev/null
-
+success
 info "Testing npm global packages..."
 claude -v
 browser-sync --version
@@ -28,10 +26,9 @@ openclaw -v
 opencode -v
 vercel -v
 yarn -v
-
+success
 info "Installing Antigravity Awesome Skills..."
 npx antigravity-awesome-skills &>/dev/null
 test -d ~/.gemini/antigravity/skills && echo "Skills installed"
-
 success
 {{ end }}

@@ -7,10 +7,9 @@ SUDOERS_FILE="/etc/sudoers.d/{{ .chezmoi.username }}"
 
 info "Configuring passwordless sudo for {{ .chezmoi.username }}..."
 echo "{{ .chezmoi.username }} ALL=(ALL:ALL) NOPASSWD:ALL" | sudo tee "$SUDOERS_FILE"
-
+success
 info "Securing file permissions for sudoers.d..."
 sudo chmod -v 0440 "$SUDOERS_FILE"
-
 success
 {{ end }}
 

@@ -16,14 +16,13 @@ sudo apt-get install -y \
   libasound2-dev \
   pkg-config \
   &>/dev/null
-
+success
 info "Installing Rust crates..."
-
 # Install claurst (Claude Code in Rust)
+success
 info "Installing claurst..."
 cargo install \
   --git https://github.com/Kuberwastaken/claurst \
   --locked &>/dev/null
-
 success
 {{ end }}

@@ -10,7 +10,7 @@ sudo apt install -y \
   python3-pip \
   python3-venv \
   &>/dev/null
-
+success
 info "Installing pyenv..."
 sudo apt install -y \
   libbz2-dev \
@@ -28,14 +28,14 @@ sudo apt install -y \
   &>/dev/null
 rm -rf $HOME/.pyenv
 curl -fsSL https://pyenv.run | bash &>/dev/null
-
+success
 info "Installing pipx..."
 sudo apt install -y pipx &>/dev/null
 pipx ensurepath &>/dev/null
-
+success
 info "Installing colo via pipx..."
 pipx install colo &>/dev/null
-
+success
 if ! command -v uv &> /dev/null; then
   info "Installing uv..."
   curl -fsSL https://astral.sh/uv/install.sh | sh &>/dev/null

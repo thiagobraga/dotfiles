@@ -16,7 +16,7 @@ bun add -g \
   vercel \
   yarn \
   &>/dev/null
-
+success
 info "Testing bun global packages..."
 bun -v
 claude -v
@@ -32,6 +32,5 @@ success
 info "Installing Antigravity Awesome Skills..."
 npx antigravity-awesome-skills &>/dev/null
 test -d ~/.gemini/antigravity/skills && echo "Skills installed"
-
 success
 {{ end }}
