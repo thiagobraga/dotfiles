@@ -1,0 +1,30 @@
+#!/bin/bash
+
+{{ if and .isLinux .isDesktop }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+EXTENSIONS_DIR="${HOME}/.local/share/gnome-shell/extensions"
+DASH_TO_PANEL_DIR="${EXTENSIONS_DIR}/dash-to-panel@jderose9.github.com"
+DASH_TO_PANEL_REPO="https://github.com/home-sweet-gnome/dash-to-panel.git"
+
+info "Installing GNOME Shell extension dependencies..."
+sudo apt install -y git make gettext gnome-shell-extensions
+
+mkdir -p "${EXTENSIONS_DIR}"
+
+if [ ! -d "${DASH_TO_PANEL_DIR}/.git" ]; then
+  info "Cloning Dash to Panel from GitHub..."
+  git clone "${DASH_TO_PANEL_REPO}" "${DASH_TO_PANEL_DIR}"
+else
+  info "Updating Dash to Panel from GitHub..."
+  git -C "${DASH_TO_PANEL_DIR}" pull --ff-only
+fi
+
+info "Installing Dash to Panel extension..."
+make -C "${DASH_TO_PANEL_DIR}" install
+
+info "Enabling Dash to Panel..."
+gnome-extensions enable dash-to-panel@jderose9.github.com || true
+
+success
+{{ end }}

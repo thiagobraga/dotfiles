@@ -1,9 +1,11 @@
 #!/bin/bash
 
 {{ if and .isLinux .isDesktop }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Installing GNOME Tweaks and Extensions..."
 sudo apt install -y gnome-tweaks gnome-shell-extensions
+
 info "Configuring GNOME settings..."
 
 # Disable screen dimming
@@ -19,7 +21,7 @@ if gsettings list-schemas | grep -q "org.gnome.settings-daemon.plugins.power"; t
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
 fi
 
-# Ubuntu Desktop settings (using Ubuntu Dock and Ubuntu Desktop extensions)
+# Ubuntu Desktop settings
 # Desktop Icons
 if gsettings list-schemas | grep -q "org.gnome.shell.extensions.ding"; then
   gsettings set org.gnome.shell.extensions.ding icon-size "standard"
@@ -27,18 +29,11 @@ if gsettings list-schemas | grep -q "org.gnome.shell.extensions.ding"; then
   gsettings set org.gnome.shell.extensions.ding show-home false
 fi
 
-# Dash to Panel extension, install and activate if available
-if ! gsettings list-schemas | grep -q "org.gnome.shell.extensions.dash-to-panel"; then
-  if command -v apt-cache >/dev/null 2>&1 && apt-cache show gnome-shell-extension-dash-to-panel >/dev/null 2>&1; then
-    sudo apt install -y gnome-shell-extension-dash-to-panel
-  fi
-fi
-
+# Dash to Panel settings
 if gsettings list-schemas | grep -q "org.gnome.shell.extensions.dash-to-panel"; then
   gsettings set org.gnome.shell.extensions.dash-to-panel panel-position 'BOTTOM'
   gsettings set org.gnome.shell.extensions.dash-to-panel show-show-apps-button true
   gsettings set org.gnome.shell.extensions.dash-to-panel show-appmenu false
-  gsettings set org.gnome.shell enabled-extensions "$(gsettings get org.gnome.shell enabled-extensions | sed "s/]$/, 'dash-to-panel@jderose9.com']/")"
 fi
 
 # Enhanced Tiling > Tiling Popup: False
@@ -78,4 +73,6 @@ gsettings set org.gnome.desktop.screensaver lock-enabled false
 # Disable screensaver
 gsettings set org.gnome.desktop.screensaver idle-activation-enabled false
 gsettings set org.gnome.desktop.screensaver logout-enabled false
+
+success
 {{ end }}
