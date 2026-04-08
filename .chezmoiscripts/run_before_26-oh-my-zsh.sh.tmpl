@@ -1,6 +1,7 @@
 #!/bin/bash
 
 {{ if .isLinux }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 if [ ! -d "${HOME}/.oh-my-zsh" ]; then
   info "Installing Oh My Zsh..."
@@ -22,4 +23,5 @@ if [ -f "${HOME}/.zshrc" ]; then
   [ -n "\$ZSH_VERSION" ] && source "${HOME}/.zshrc" || zsh
 fi
 
+success
 {{ end }}

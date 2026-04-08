@@ -1,29 +1,30 @@
 #!/bin/bash
 
 {{ if and .isLinux .isFull }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Installing Python, pip, venv..."
-sudo apt install -y \\
-  python3 \\
-  python-is-python3 \\
-  python3-pip \\
-  python3-venv \\
+sudo apt install -y \
+  python3 \
+  python-is-python3 \
+  python3-pip \
+  python3-venv \
   &>/dev/null
 
 info "Installing pyenv..."
-sudo apt install -y \\
-  libbz2-dev \\
-  libffi-dev \\
-  liblzma-dev \\
-  libncursesw5-dev \\
-  libreadline-dev \\
-  libsqlite3-dev \\
-  libssl-dev \\
-  libxml2-dev \\
-  libxmlsec1-dev \\
-  tk-dev \\
-  xz-utils \\
-  zlib1g-dev \\
+sudo apt install -y \
+  libbz2-dev \
+  libffi-dev \
+  liblzma-dev \
+  libncursesw5-dev \
+  libreadline-dev \
+  libsqlite3-dev \
+  libssl-dev \
+  libxml2-dev \
+  libxmlsec1-dev \
+  tk-dev \
+  xz-utils \
+  zlib1g-dev \
   &>/dev/null
 rm -rf $HOME/.pyenv
 curl -fsSL https://pyenv.run | bash &>/dev/null
@@ -43,4 +44,5 @@ else
   uv self update &>/dev/null
 fi
 
+success
 {{ end }}

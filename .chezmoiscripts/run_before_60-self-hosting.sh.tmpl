@@ -1,6 +1,7 @@
 #!/bin/bash
 
 {{ if and .isLinux .isFull }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 info "Self-hosting services (llama.cpp, paperless-ngx, glance)..."
 
@@ -12,7 +13,7 @@ mkdir -p "${SELF_HOSTED_DIR}/glance"
 if ! docker image inspect ghcr.io/ggml-org/llama.cpp:server &>/dev/null; then
   info "Pulling llama.cpp server Docker image..."
   docker pull ghcr.io/ggml-org/llama.cpp:server
-# docker run -v /mnt/w/AI/.ollama/models:/models ghcr.io/ggml-org/llama.cpp:full --all-in-one "/models/" 7B
+  # docker run -v /mnt/w/AI/.ollama/models:/models ghcr.io/ggml-org/llama.cpp:full --all-in-one "/models/" 7B
 else
   info "llama.cpp already pulled"
   success
@@ -22,15 +23,15 @@ if [ ! -f "${SELF_HOSTED_DIR}/paperless-ngx/docker-compose.yml" ]; then
   info "Fetching Paperless-ngx docker-compose example..."
   export PAPERLESS_NGX_URL='https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/docker/compose/'
   cd "${SELF_HOSTED_DIR}/paperless-ngx"
-wget -q "${PAPERLESS_NGX_URL}/docker-compose.postgres.yml" -O "docker-compose.yml"
-wget -q "${PAPERLESS_NGX_URL}/.env" -O "docker-compose.env"
-docker compose pull
-docker compose up -d
+  wget -q "${PAPERLESS_NGX_URL}/docker-compose.postgres.yml" -O "docker-compose.yml"
+  wget -q "${PAPERLESS_NGX_URL}/.env" -O "docker-compose.env"
+  docker compose pull
+  docker compose up -d
 else
   info "Paperless-ngx already installed. Updating..."
   cd "${SELF_HOSTED_DIR}/paperless-ngx"
-docker compose pull
-docker compose up -d
+  docker compose pull
+  docker compose up -d
 fi
 
 if [ ! -f "${SELF_HOSTED_DIR}/glance/docker-compose.yml" ]; then
@@ -42,4 +43,5 @@ cd "${SELF_HOSTED_DIR}/glance"
 curl -sL https://github.com/glanceapp/docker-compose-template/archive/refs/heads/main.tar.gz | tar -xzf - --strip-components 2
 docker compose up -d
 
+success
 {{ end }}

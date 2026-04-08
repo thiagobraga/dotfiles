@@ -1,38 +1,31 @@
 #!/bin/bash
 
 {{ if and .isLinux .isFull .hasAVX }}
-info "Installing bun global packages..."
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 export PATH="${HOME}/.bun/bin:${PATH}"
 
-bun add -g \\
-  @anthropic-ai/claude-code \\
-  @kilocode/cli \\
-  browser-sync \\
-  n8n \\
-  openclaw \\
-  opencode-ai \\
-  vercel \\
-  yarn \\
+info "Installing bun global packages..."
+bun add -g \
+  @anthropic-ai/claude-code \
+  @kilocode/cli \
+  browser-sync \
+  n8n \
+  openclaw \
+  opencode-ai \
+  vercel \
+  yarn \
   &>/dev/null
 
 info "Testing bun global packages..."
 bun -v
-
 claude -v
-
 browser-sync --version
-
 kilo --version
-
 n8n -v
-
 openclaw -v
-
 opencode -v
-
-vercel -v
-
+echo $(vercel -v) | head -n1
 yarn -v
 success
 
@@ -40,4 +33,5 @@ info "Installing Antigravity Awesome Skills..."
 npx antigravity-awesome-skills &>/dev/null
 test -d ~/.gemini/antigravity/skills && echo "Skills installed"
 
+success
 {{ end }}

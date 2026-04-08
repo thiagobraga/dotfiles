@@ -1,6 +1,7 @@
 #!/bin/bash
 
 {{ if .isLinux }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 THEMES_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes"
 TARGET_DIR="$THEMES_DIR/powerlevel10k"
@@ -15,4 +16,5 @@ else
   git -C "$TARGET_DIR" pull
 fi
 
+success
 {{ end }}

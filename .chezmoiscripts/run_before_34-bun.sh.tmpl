@@ -1,6 +1,7 @@
 #!/bin/bash
 
 {{ if and .isLinux .hasAVX .isFull }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 if ! command -v bun &> /dev/null; then
   info "Installing Bun..."
@@ -10,4 +11,5 @@ else
   bun upgrade &>/dev/null
 fi
 
+success
 {{ end }}

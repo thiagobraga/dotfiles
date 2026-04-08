@@ -1,6 +1,7 @@
 #!/bin/bash
 
 {{ if and .isLinux .isFull }}
+source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
 # Ensure cargo is available
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -11,16 +12,18 @@ if ! command -v cargo &>/dev/null; then
 fi
 
 info "Installing Rust crate dependencies..."
-sudo apt-get install -y \\
-  libasound2-dev \\
-  pkg-config \\
+sudo apt-get install -y \
+  libasound2-dev \
+  pkg-config \
   &>/dev/null
 
 info "Installing Rust crates..."
 
 # Install claurst (Claude Code in Rust)
 info "Installing claurst..."
-cargo install \\
-  --git https://github.com/Kuberwastaken/claurst \\
+cargo install \
+  --git https://github.com/Kuberwastaken/claurst \
   --locked &>/dev/null
+
+success
 {{ end }}
