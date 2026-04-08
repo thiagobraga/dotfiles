@@ -43,7 +43,9 @@
 {{-   $isFull = promptBoolOnce . "isFull" "Install full developer environment (nvm, bun, docker, self-hosting) true/false?" false -}}
 {{- end -}}
 
+
 [data]
+sourceDir = "/home/{{ .chezmoi.username }}/projects/dotfiles"
 isLinux = {{ $isLinux }}
 isWindows = {{ $isWindows }}
 isUbuntu = {{ $isUbuntu }}
