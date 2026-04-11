@@ -43,21 +43,21 @@
 {{-   $isFull = promptBoolOnce . "isFull" "Install full developer environment (nvm, bun, docker, self-hosting) true/false?" false -}}
 {{- end -}}
 
+sourceDir = "/home/{{ .chezmoi.username }}/projects/dotfiles"
 
 [data]
-sourceDir = "/home/{{ .chezmoi.username }}/projects/dotfiles"
-isLinux = {{ $isLinux }}
-isWindows = {{ $isWindows }}
-isUbuntu = {{ $isUbuntu }}
-isWsl = {{ $isWsl }}
-isDesktop = {{ $isDesktop }}
-isServer = {{ $isServer }}
-hasAVX = {{ $hasAVX }}
-isFull = {{ $isFull }}
+  isLinux = {{ $isLinux }}
+  isWindows = {{ $isWindows }}
+  isUbuntu = {{ $isUbuntu }}
+  isWsl = {{ $isWsl }}
+  isDesktop = {{ $isDesktop }}
+  isServer = {{ $isServer }}
+  isFull = {{ $isFull }}
+  hasAVX = {{ $hasAVX }}
 
 [edit]
-apply = true
+  apply = true
 
 [git]
-autoCommit = true
-autoPush = true
+  autoCommit = true
+  autoPush = true
