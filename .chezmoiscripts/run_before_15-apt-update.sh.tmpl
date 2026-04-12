@@ -12,7 +12,12 @@ info "Reconfiguring dpkg..."
 sudo dpkg --configure -a &>/dev/null
 success
 
-info "Upgrading installed apt packages..."
+upgrade_size=$(sudo apt-get upgrade --assume-no 2>/dev/null | awk '/^Need to get/ {print $4, $5}')
+if [ -n "$upgrade_size" ]; then
+  info "Upgrading installed apt packages (${upgrade_size})..."
+else
+  info "Upgrading installed apt packages..."
+fi
 sudo apt-get upgrade -y &>/dev/null
 success
 
