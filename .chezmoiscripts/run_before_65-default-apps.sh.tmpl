@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if and .isLinux .isDesktop }}
+{{- if and .isLinux .isDesktop }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
@@ -29,4 +29,4 @@ echo 'EDITOR=nvim' | sudo tee /etc/environment.d/90-editor.conf &>/dev/null
 echo 'VISUAL=nvim' | sudo tee -a /etc/environment.d/90-editor.conf &>/dev/null
 success
 
-{{ end }}
+{{- end }}

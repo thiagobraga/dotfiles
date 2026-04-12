@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if and .isLinux .isDesktop .isFull }}
+{{- if and .isLinux .isDesktop .isFull }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
@@ -39,4 +39,4 @@ if gsettings list-schemas | grep -q "org.gnome.shell.extensions.tiling-assistant
 fi
 success
 
-{{ end }}
+{{- end }}

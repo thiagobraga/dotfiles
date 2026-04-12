@@ -1,8 +1,8 @@
 #!/bin/bash
 
-{{ if and .isLinux .isFull }}
+{{- if and .isLinux .isFull }}
 
-{{ if .isWsl -}}
+{{- if .isWsl -}}
 ! command -v docker &>/dev/null \
   && warning 'Docker not found in WSL. Ensure Docker Desktop is running and WSL Integration is enabled.' \
   || info 'Docker found via WSL Integration. Skipping native installation.'
@@ -35,4 +35,4 @@ if ! groups $USER | grep -q "docker"; then
 fi
 
 {{ end -}}
-{{ end }}
+{{- end }}

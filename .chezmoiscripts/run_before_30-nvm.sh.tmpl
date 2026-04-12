@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if and .isLinux .isFull }}
+{{- if and .isLinux .isFull }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 export NVM_DIR="${HOME}/.nvm"
@@ -14,4 +14,4 @@ curl -so- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 nvm install --lts &>/dev/null
 success
 
-{{ end }}
+{{- end }}

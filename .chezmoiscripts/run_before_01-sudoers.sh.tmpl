@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if .isLinux }}
+{{- if .isLinux }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 SUDOERS_FILE="/etc/sudoers.d/{{ .chezmoi.username }}"
@@ -13,5 +13,5 @@ info "Securing file permissions for sudoers.d..."
 sudo chmod 0440 "$SUDOERS_FILE"
 success
 
-{{ end }}
+{{- end }}
 

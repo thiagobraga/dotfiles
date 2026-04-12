@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if and .isLinux .isFull }}
+{{- if and .isLinux .isFull }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
@@ -22,4 +22,4 @@ else
   success
 fi
 
-{{ end }}
+{{- end }}

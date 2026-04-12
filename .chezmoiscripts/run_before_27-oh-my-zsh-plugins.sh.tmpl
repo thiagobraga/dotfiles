@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if .isLinux }}
+{{- if .isLinux }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
@@ -25,4 +25,4 @@ for plugin in "${ZSH_PLUGINS[@]}"; do
   success
 done
 
-{{ end }}
+{{- end }}

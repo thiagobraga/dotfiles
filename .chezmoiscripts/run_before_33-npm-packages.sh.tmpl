@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if and .isLinux .isFull (not .hasAVX) }}
+{{- if and .isLinux .isFull (not .hasAVX) }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
@@ -26,4 +26,4 @@ info "Installing Antigravity Awesome Skills..."
 npx antigravity-awesome-skills &>/dev/null
 test -d ~/.gemini/antigravity/skills && success || error "Failed to install Antigravity Awesome Skills"
 
-{{ end }}
+{{- end }}

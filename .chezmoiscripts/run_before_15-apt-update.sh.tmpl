@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if .isLinux }}
+{{- if .isLinux }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
@@ -27,4 +27,4 @@ info "Cleaning apt cache..."
 sudo apt-get clean &>/dev/null
 success
 
-{{ end }}
+{{- end }}

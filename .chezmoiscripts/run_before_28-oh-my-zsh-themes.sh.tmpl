@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if .isLinux }}
+{{- if .isLinux }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
@@ -25,4 +25,4 @@ for theme in "${ZSH_THEMES[@]}"; do
   success
 done
 
-{{ end }}
+{{- end }}

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if and .isLinux .isDesktop }}
+{{- if and .isLinux .isDesktop }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
@@ -70,4 +70,4 @@ gsettings set org.gnome.desktop.screensaver idle-activation-enabled false &>/dev
 gsettings set org.gnome.desktop.screensaver logout-enabled false &>/dev/null
 success
 
-{{ end }}
+{{- end }}

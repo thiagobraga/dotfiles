@@ -1,12 +1,13 @@
 #!/bin/bash
 
-{{ if .isUbuntu }}
+{{- if .isUbuntu }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
 info "Installing essential apt packages..."
 sudo apt-get install -y \
   apt-transport-https \
+  asciinema \
   bat \
   build-essential \
   ca-certificates \
@@ -30,4 +31,4 @@ sudo apt-get install -y \
   &>/dev/null
 success
 
-{{ end }}
+{{- end }}

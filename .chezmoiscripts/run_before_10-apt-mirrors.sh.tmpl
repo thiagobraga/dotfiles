@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if .isUbuntu }}
+{{- if .isUbuntu }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
@@ -20,4 +20,4 @@ Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 EOF
 success
 
-{{ end }}
+{{- end }}

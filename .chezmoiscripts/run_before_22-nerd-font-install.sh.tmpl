@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if and .isLinux .isDesktop .isFull }}
+{{- if and .isLinux .isDesktop .isFull }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
@@ -27,4 +27,4 @@ rm -f /tmp/*.zip
 fc-cache -fv "$FONTS_DIR" &>/dev/null
 success
 
-{{ end }}
+{{- end }}

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{ if .isLinux }}
+{{- if .isLinux }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
@@ -8,4 +8,4 @@ info "Setting zsh as default shell..."
 sudo chsh -s "$(which zsh)" "{{ .chezmoi.username }}" &>/dev/null
 success
 
-{{ end }}
+{{- end }}
