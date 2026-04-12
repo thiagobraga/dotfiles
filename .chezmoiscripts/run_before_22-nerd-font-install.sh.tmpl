@@ -4,7 +4,7 @@
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
-info "Installing Nerd Fonts..."
+info "Installing Nerd Fonts"
 NERD_FONTS_URL='https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0'
 FONTS_DIR="${HOME}/.local/share/fonts/NerdFonts"
 FONTS_LIST=(
@@ -16,8 +16,10 @@ FONTS_LIST=(
 mkdir -p "$FONTS_DIR"
 
 for font in "${FONTS_LIST[@]}"; do
+  info "${font}..."
   wget -q "${NERD_FONTS_URL}/${font}.zip" -O "/tmp/${font}.zip"
   [[ -f "/tmp/${font}.zip" ]] && unzip -oq "/tmp/${font}.zip" -d "$FONTS_DIR"
+  success
 done
 
 rm -f /tmp/*.zip
