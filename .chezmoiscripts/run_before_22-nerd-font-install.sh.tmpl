@@ -1,0 +1,27 @@
+#!/bin/bash
+
+{{ if .isLinux }}
+
+source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
+
+info "Installing Nerd Fonts..."
+NERD_FONTS_URL='https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2'
+FONTS_DIR="${HOME}/.local/share/fonts/NerdFonts"
+FONTS_LIST=(
+  FiraCodeMono
+  JetBrainsMono
+)
+mkdir -p "$FONTS_DIR"
+
+for font in "${FONTS_LIST[@]}"; do
+  wget -q "${NERD_FONTS_URL}/${font}.zip" -O "/tmp/${font}.zip" 2>/dev/null
+  if [[ -f "/tmp/${font}.zip" ]]; then
+    unzip -q "/tmp/${font}.zip" -d "$FONTS_DIR" 2>/dev/null
+  fi
+done
+
+rm -f /tmp/*.zip
+fc-cache -fv "$FONTS_DIR" &>/dev/null
+success
+
+{{ end }}

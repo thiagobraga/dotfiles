@@ -1,0 +1,28 @@
+#!/bin/bash
+
+{{ if .isLinux }}
+
+source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
+
+info 'Installing Oh My Zsh themes'
+ZSH_THEMES_DIR="${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes"
+ZSH_THEMES=(
+  'romkatv/powerlevel10k'
+  'spaceship-prompt/spaceship-prompt'
+)
+mkdir -p "${ZSH_THEMES_DIR}" &>/dev/null
+
+for theme in "${ZSH_THEMES[@]}"; do
+  name=$(printf '%s' "$theme" | cut -d/ -f2)
+  target_dir="${ZSH_THEMES_DIR}/${name}"
+  if [ ! -d "${target_dir}" ]; then
+    info "Installing theme: ${name}..."
+    git clone "https://github.com/${theme}" "${target_dir}" &>/dev/null
+  else
+    info "Updating theme: ${name}..."
+    git -C "${target_dir}" pull &>/dev/null
+  fi
+  success
+done
+
+{{ end }}
