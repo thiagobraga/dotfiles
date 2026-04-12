@@ -5,11 +5,8 @@
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
 info "Disabling Dash to Dock..."
-if gsettings list-schemas | grep -q "org.gnome.shell.extensions.dash-to-dock"; then
-  gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false &>/dev/null
-  gsettings set org.gnome.shell.extensions.dash-to-dock autohide true &>/dev/null
-  gsettings set org.gnome.shell.extensions.dash-to-dock transparency-mode 'FIXED' &>/dev/null
-fi
+gnome-extensions disable ubuntu-dock@ubuntu.com &>/dev/null || true
+gnome-extensions disable dash-to-dock@micxgx.gmail.com &>/dev/null || true
 success
 
 info "Installing Dash to Panel extension..."
@@ -17,26 +14,14 @@ gnome-extensions-cli install dash-to-panel@jderose9.github.com &>/dev/null
 gnome-extensions enable dash-to-panel@jderose9.github.com &>/dev/null
 success
 
-info "Configuring Desktop Icons extension..."
-if gsettings list-schemas | grep -q "org.gnome.shell.extensions.ding"; then
-  gsettings set org.gnome.shell.extensions.ding icon-size "standard" &>/dev/null
-  gsettings set org.gnome.shell.extensions.ding start-corner "top-left" &>/dev/null
-  gsettings set org.gnome.shell.extensions.ding show-home false &>/dev/null
-fi
+info "Installing Date Menu Formatter extension..."
+gnome-extensions-cli install date-menu-formatter@marcinjakubowski.github.com &>/dev/null
+gnome-extensions enable date-menu-formatter@marcinjakubowski.github.com &>/dev/null
 success
 
-info "Configuring Dash to Panel extension..."
-if gsettings list-schemas | grep -q "org.gnome.shell.extensions.dash-to-panel"; then
-  gsettings set org.gnome.shell.extensions.dash-to-panel panel-position 'BOTTOM' &>/dev/null
-  gsettings set org.gnome.shell.extensions.dash-to-panel show-show-apps-button true &>/dev/null
-  gsettings set org.gnome.shell.extensions.dash-to-panel show-appmenu false &>/dev/null
-fi
-success
-
-info "Configuring Tiling Assistant extension..."
-if gsettings list-schemas | grep -q "org.gnome.shell.extensions.tiling-assistant"; then
-  gsettings set org.gnome.shell.extensions.tiling-assistant enable-tiling-popup false &>/dev/null
-fi
+info "Installing Middle Click to Close in Overview extension..."
+gnome-extensions-cli install middle-click-to-close-in-overview@fmuellner.github.io &>/dev/null
+gnome-extensions enable middle-click-to-close-in-overview@fmuellner.github.io &>/dev/null
 success
 
 {{- end }}
