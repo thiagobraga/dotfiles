@@ -22,6 +22,7 @@ for font in "${FONTS_LIST[@]}"; do
   success
 done
 
+info "Cleaning temp files and rebuilding font cache..."
 rm -f /tmp/*.zip
 fc-cache -fv "$FONTS_DIR" &>/dev/null
 success
