@@ -4,10 +4,17 @@
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
-info "Installing GNOME Extensions"
+info "Disabling Dash to Dock..."
+if gsettings list-schemas | grep -q "org.gnome.shell.extensions.dash-to-dock"; then
+  gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false &>/dev/null
+  gsettings set org.gnome.shell.extensions.dash-to-dock autohide true &>/dev/null
+  gsettings set org.gnome.shell.extensions.dash-to-dock transparency-mode 'FIXED' &>/dev/null
+fi
+success
+
 info "Installing Dash to Panel extension..."
 gnome-extensions-cli install dash-to-panel@jderose9.github.com &>/dev/null
-gnome-extensions-cli enable dash-to-panel@jderose9.github.com &>/dev/null
+gnome-extensions enable dash-to-panel@jderose9.github.com &>/dev/null
 success
 
 info "Configuring Desktop Icons extension..."
