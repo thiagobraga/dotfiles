@@ -18,10 +18,4 @@ else
   success
 fi
 
-if [ -f "${HOME}/.zshrc" ]; then
-  info "Reloading .zshrc..."
-  exec zsh
-  success
-fi
-
 {{- end }}
