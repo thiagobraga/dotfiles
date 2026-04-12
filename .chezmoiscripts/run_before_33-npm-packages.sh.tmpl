@@ -1,14 +1,18 @@
 #!/bin/bash
 
 {{ if and .isLinux .isFull (not .hasAVX) }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
 info "Installing npm global packages (fallback for non-AVX hardware)..."
-# Ensure nvm-installed node/npm is in PATH
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+export NVM_DIR="${HOME}/.nvm"
+[ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh" &>/dev/null
+
 npm i -g \
+  @anthropic-ai/claude-code \
+  @gitlawb/openclaude \
   @kilocode/cli \
+  @openai/codex \
   browser-sync \
   n8n \
   openclaw \
@@ -17,18 +21,9 @@ npm i -g \
   yarn \
   &>/dev/null
 success
-info "Testing npm global packages..."
-claude -v
-browser-sync --version
-kilo --version
-n8n -v
-openclaw -v
-opencode -v
-vercel -v
-yarn -v
-success
+
 info "Installing Antigravity Awesome Skills..."
 npx antigravity-awesome-skills &>/dev/null
-test -d ~/.gemini/antigravity/skills && echo "Skills installed"
-success
+test -d ~/.gemini/antigravity/skills && success || error "Failed to install Antigravity Awesome Skills"
+
 {{ end }}

@@ -1,27 +1,27 @@
 #!/bin/bash
 
 {{ if .isLinux }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
-if [ ! -d "${HOME}/.oh-my-zsh" ]; then
+source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
+OHMYZSHPATH="${HOME}/.oh-my-zsh"
+
+if [ ! -d "${OHMYZSHPATH}" ]; then
   info "Installing Oh My Zsh..."
   wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh &>/dev/null \
-  && sh install.sh --keep-zshrc --unattended &>/dev/null \
-  && rm install.sh
-cat <<'EOZ' > "${HOME}/.zshrc"
-export ZSH="${HOME}/.oh-my-zsh"
-ZSH_THEME="agnoster"
-source \${ZSH}/oh-my-zsh.sh
-EOZ
+    && sh install.sh --keep-zshrc --unattended &>/dev/null \
+    && rm install.sh &>/dev/null \
+    && printf '%s\n' 'ZSH_THEME="agnoster" && source ${HOME}/.oh-my-zsh/oh-my-zsh.sh' > "${HOME}/.zshrc" &>/dev/null
+  success
 else
   info "Oh My Zsh is already installed. Updating..."
-  git -C ${HOME}/.oh-my-zsh pull
+  git -C ${OHMYZSHPATH} pull &>/dev/null
+  success
 fi
 
 if [ -f "${HOME}/.zshrc" ]; then
   info "Reloading .zshrc..."
-  [ -n "\$ZSH_VERSION" ] && source "${HOME}/.zshrc" || zsh
+  [ -n "$ZSH_VERSION" ] && source "${HOME}/.zshrc" || zsh
+  success
 fi
 
-success
 {{ end }}

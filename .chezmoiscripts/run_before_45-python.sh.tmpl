@@ -1,18 +1,20 @@
 #!/bin/bash
 
 {{ if and .isLinux .isFull }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
 info "Installing Python, pip, venv..."
-sudo apt install -y \
+sudo apt-get install -y \
   python3 \
   python-is-python3 \
   python3-pip \
   python3-venv \
   &>/dev/null
 success
+
 info "Installing pyenv..."
-sudo apt install -y \
+sudo apt-get install -y \
   libbz2-dev \
   libffi-dev \
   liblzma-dev \
@@ -29,13 +31,23 @@ sudo apt install -y \
 rm -rf $HOME/.pyenv
 curl -fsSL https://pyenv.run | bash &>/dev/null
 success
+
 info "Installing pipx..."
 sudo apt install -y pipx &>/dev/null
 pipx ensurepath &>/dev/null
 success
+
+info "Installing gnome-extensions-cli..."
+if ! command -v gnome-extensions-cli &>/dev/null; then
+  pipx install gnome-extensions-cli &>/dev/null
+fi
+export PATH="${HOME}/.local/bin:${PATH}"
+success
+
 info "Installing colo via pipx..."
 pipx install colo &>/dev/null
 success
+
 if ! command -v uv &> /dev/null; then
   info "Installing uv..."
   curl -fsSL https://astral.sh/uv/install.sh | sh &>/dev/null
@@ -43,6 +55,6 @@ else
   info "uv is already installed. Updating..."
   uv self update &>/dev/null
 fi
-
 success
+
 {{ end }}

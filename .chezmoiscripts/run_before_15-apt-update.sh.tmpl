@@ -1,12 +1,27 @@
 #!/bin/bash
 
 {{ if .isLinux }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
 info "Updating apt repositories..."
-sudo apt-get update
+sudo apt-get update &>/dev/null
 success
+
+info "Reconfiguring dpkg..."
+sudo dpkg --configure -a &>/dev/null
+success
+
 info "Upgrading installed apt packages..."
 sudo apt-get upgrade -y &>/dev/null
 success
+
+info "Autoremoving unused packages..."
+sudo apt-get autoremove -y &>/dev/null
+success
+
+info "Cleaning apt cache..."
+sudo apt-get clean &>/dev/null
+success
+
 {{ end }}

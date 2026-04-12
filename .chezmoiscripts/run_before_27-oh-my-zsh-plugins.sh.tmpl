@@ -1,32 +1,28 @@
 #!/bin/bash
 
 {{ if .isLinux }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
-ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
-PLUGINS_DIR="$ZSH_CUSTOM/plugins"
+source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
-# List of plugins to manage with git
-# Format: "plugin_name|git_repo_url"
-plugins=(
-  "zsh-syntax-highlighting|https://github.com/zsh-users/zsh-syntax-highlighting.git"
-  "zsh-autosuggestions|https://github.com/zsh-users/zsh-autosuggestions.git"
+info 'Installing Oh My Zsh plugins'
+ZSH_PLUGINS_DIR="${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins"
+ZSH_PLUGINS=(
+  'zsh-users/zsh-syntax-highlighting'
+  'zsh-users/zsh-autosuggestions'
 )
+mkdir -p "$ZSH_PLUGINS_DIR" &>/dev/null
 
-mkdir -p "$PLUGINS_DIR"
-
-for plugin_info in "${plugins[@]}"; do
-  IFS="|" read -r name url <<< "$plugin_info"
-  target_dir="$PLUGINS_DIR/$name"
-
+for plugin in "${ZSH_PLUGINS[@]}"; do
+  name=$(printf '%s' "$plugin" | cut -d/ -f2)
+  target_dir="$ZSH_PLUGINS_DIR/$name"
   if [ ! -d "$target_dir" ]; then
     info "Installing plugin: $name..."
-    git clone "$url" "$target_dir"
+    git clone "https://github.com/${plugin}" "$target_dir" &>/dev/null
   else
     info "Updating plugin: $name..."
-    git -C "$target_dir" pull
+    git -C "$target_dir" pull &>/dev/null
   fi
+  success
 done
 
-success
 {{ end }}
