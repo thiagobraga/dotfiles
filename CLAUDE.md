@@ -70,18 +70,18 @@ Chezmoi translates filenames to actual paths:
 
 Scripts in `.chezmoiscripts/` execute in alphabetical order by phase:
 
-| Phase | Scripts | Purpose |
-|-------|---------|---------|
-| `run_before_*` | `00-chezmoi-env.sh.tmpl` through `60-self-hosting.sh.tmpl` | System setup: APT packages, shells, runtimes, Docker |
-| `run_after_*` | `99-start-zsh.sh` | Post-apply actions |
-| `run_onchange_*` | `70-windows.ps1.tmpl` | Windows-side configuration (WSL only) |
+| Phase            | Scripts                                                    | Purpose                                              |
+|------------------|------------------------------------------------------------|------------------------------------------------------|
+| `run_before_*`   | `00-chezmoi-env.sh.tmpl` through `60-self-hosting.sh.tmpl` | System setup: APT packages, shells, runtimes, Docker |
+| `run_after_*`    | `99-start-zsh.sh`                                          | Post-apply actions                                   |
+| `run_onchange_*` | `70-windows.ps1.tmpl`                                      | Windows-side configuration (WSL only)                |
 
 ### Helper Utilities
 
 All setup scripts source `.helpers/utils.sh` for consistent logging:
 
 ```bash
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
 info "Message"      # Gray [info] prefix
 success "Message"  # Green "done" prefix
@@ -130,7 +130,7 @@ When adding new setup steps:
 
 1. Use appropriate phase prefix (`run_before_`, `run_after_`)
 2. Use numeric prefix for ordering (e.g., `25-script.sh.tmpl` runs before `30-script.sh.tmpl`)
-3. Always source the utils helper: `source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"`
+3. Always source the utils helper: `source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'`
 4. Use the `run` function for command execution
 5. Wrap OS-specific logic in template conditionals: `{{ if .isUbuntu }}...{{ end }}`
 6. For commands needing `isFull` context, check: `{{ if and .isLinux .isFull }}`

@@ -1,56 +1,73 @@
 #!/bin/bash
 
 {{ if and .isLinux .isDesktop }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
-info "Installing GNOME Tweaks and Extensions..."
-sudo apt install -y gnome-tweaks gnome-shell-extensions
+source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
+
+info "Installing GNOME Tweaks and Gnome Shell Extensions..."
+sudo apt-get install -y \
+  gnome-tweaks \
+  gnome-shell-extensions \
+  &>/dev/null
 success
-info "Configuring GNOME settings..."
-# Disable screen dimming
-gsettings set org.gnome.settings-daemon.plugins.power idle-dim false
-# Sounds > Alert Sound > None
-gsettings set org.gnome.desktop.sound theme-name ""
-# Power > Power Mode > Performance (if available)
+
+info "Configuring GNOME settings"
+info "Disable screen dimming..."
+gsettings set org.gnome.settings-daemon.plugins.power idle-dim false &>/dev/null
 success
+
+info "Sounds > Alert Sound > None"
+gsettings set org.gnome.desktop.sound theme-name "" &>/dev/null
+success
+
+info "Power > Power Mode > Performance (if available)"
+
 if gsettings list-schemas | grep -q "org.gnome.settings-daemon.plugins.power"; then
-  # Try power-saver as false and sleep-inactive-ac-timeout to 0 for performance-like behavior
-    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
-    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
+  info "Try power-saver as false and sleep-inactive-ac-timeout to 0 for performance-like behavior" &>/dev/null
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0 &>/dev/null
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing' &>/dev/null
 fi
+success
 
-# Search > disable Characters, Clocks, Passwords and keys
+info "Search > disable Characters, Clocks, Passwords and keys"
 if gsettings list-schemas | grep -q "org.gnome.desktop.search-providers"; then
   gsettings set org.gnome.desktop.search-providers disabled "['org.gnome.Characters.desktop', 'org.gnome.clocks.desktop', 'org.gnome.seahorse.Application.desktop']"
 fi
-
-# Sharing > Device Name: thiago-ubuntu (if schema exists)
-if gsettings list-schemas | grep -q "org.gnome.settings-daemon.plugins.sharing"; then
-  gsettings set org.gnome.settings-daemon.plugins.sharing vnc-name "thiago-ubuntu"
-  gsettings set org.gnome.settings-daemon.plugins.sharing service-enabled true
-fi
-
-# Mouse and Touchpad settings
-# Touchpad: Secondary Click (Two Finger), Scroll (Two Finger), Direction (Traditional/Natural off)
-gsettings set org.gnome.desktop.peripherals.touchpad click-method "fingers"
-gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
-gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
-
-# Mouse: Scroll Direction Traditional (Natural off)
-gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
-
-# Accessibility > Reduce Animation: true
-gsettings set org.gnome.desktop.interface enable-animations false
-
-# Privacy & Security > Blank Screen Delay: Never (0)
-gsettings set org.gnome.desktop.session idle-delay 0
-
-# Privacy & Security > Automatic Screen Lock: false
-gsettings set org.gnome.desktop.screensaver lock-enabled false
-
-# Disable screensaver
-gsettings set org.gnome.desktop.screensaver idle-activation-enabled false
-gsettings set org.gnome.desktop.screensaver logout-enabled false
-
 success
+
+info "Sharing > Device Name: thiago-ubuntu (if schema exists)"
+if gsettings list-schemas | grep -q "org.gnome.settings-daemon.plugins.sharing"; then
+  gsettings set org.gnome.settings-daemon.plugins.sharing vnc-name "thiago-ubuntu" &>/dev/null
+  gsettings set org.gnome.settings-daemon.plugins.sharing service-enabled true &>/dev/null
+fi
+success
+
+info "Mouse and Touchpad settings"
+info "Touchpad: Secondary Click (Two Finger), Scroll (Two Finger), Direction (Traditional/Natural off)" &>/dev/null
+gsettings set org.gnome.desktop.peripherals.touchpad click-method "fingers" &>/dev/null
+gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true &>/dev/null
+gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false &>/dev/null
+success
+
+info "Mouse: Scroll Direction Traditional (Natural off)"
+gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false &>/dev/null
+success
+
+info "Accessibility > Reduce Animation: true"
+gsettings set org.gnome.desktop.interface enable-animations false &>/dev/null
+success
+
+info "Privacy & Security > Blank Screen Delay: Never (0)"
+gsettings set org.gnome.desktop.session idle-delay 0 &>/dev/null
+success
+
+info "Privacy & Security > Automatic Screen Lock: false"
+gsettings set org.gnome.desktop.screensaver lock-enabled false &>/dev/null
+success
+
+info "Disable screensaver"
+gsettings set org.gnome.desktop.screensaver idle-activation-enabled false &>/dev/null
+gsettings set org.gnome.desktop.screensaver logout-enabled false &>/dev/null
+success
+
 {{ end }}

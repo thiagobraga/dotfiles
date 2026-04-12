@@ -1,15 +1,17 @@
 #!/bin/bash
 
 {{ if .isUbuntu }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
 info "Setting up brazilian apt mirrors for Ubuntu..."
-sudo tee /etc/apt/sources.list.d/ubuntu.sources > /dev/null << EOF
+sudo tee /etc/apt/sources.list.d/ubuntu.sources &>/dev/null << EOF
 Types: deb
 URIs: http://br.archive.ubuntu.com/ubuntu
 Suites: noble noble-updates noble-backports
 Components: main universe restricted multiverse
 Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
 Types: deb
 URIs: http://br.archive.ubuntu.com/ubuntu
 Suites: noble-security
@@ -17,4 +19,5 @@ Components: main universe restricted multiverse
 Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 EOF
 success
+
 {{ end }}

@@ -1,46 +1,53 @@
 #!/bin/bash
 
 {{ if and .isLinux .isFull }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
-info "Self-hosting services (llama.cpp, paperless-ngx, glance)..."
-export SELF_HOSTED_DIR="${HOME}/projects/self-hosted"
+source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
+info "Self-hosting services (llama.cpp, paperless-ngx, glance)"
+SELF_HOSTED_DIR="${HOME}/projects/self-hosted"
+PAPERLESS_NGX_URL='https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/docker/compose/'
+GLANCE_URL='https://github.com/glanceapp/docker-compose-template/archive/refs/heads/main.tar.gz'
 mkdir -p "${SELF_HOSTED_DIR}/llama.cpp"
 mkdir -p "${SELF_HOSTED_DIR}/paperless-ngx"
 mkdir -p "${SELF_HOSTED_DIR}/glance"
+
+! docker image inspect ghcr.io/ggml-org/llama.cpp:server &>/dev/null \
+  && info "Pulling llama.cpp server Docker image..." \
+  || info "llama.cpp already pulled. Updating..."
+docker pull ghcr.io/ggml-org/llama.cpp:server
+# docker run -v /mnt/w/AI/.ollama/models:/models ghcr.io/ggml-org/llama.cpp:full --all-in-one "/models/" 7B
 success
-if ! docker image inspect ghcr.io/ggml-org/llama.cpp:server &>/dev/null; then
-  info "Pulling llama.cpp server Docker image..."
-  docker pull ghcr.io/ggml-org/llama.cpp:server
-  # docker run -v /mnt/w/AI/.ollama/models:/models ghcr.io/ggml-org/llama.cpp:full --all-in-one "/models/" 7B
+
+if [ ! -f "${SELF_HOSTED_DIR}/paperless-ngx" ]; then
+  info "Installing Paperless-ngx..."
+  wget -q "${PAPERLESS_NGX_URL}/docker-compose.postgres.yml" -O "compose.yml" &>/dev/null
+  wget -q "${PAPERLESS_NGX_URL}/.env" -O "docker-compose.env" &>/dev/null
 else
-  info "llama.cpp already pulled"
+  info "Paperless-ngx already installed. Updating..."
+fi
+cd "${SELF_HOSTED_DIR}/paperless-ngx"
+docker compose pull &>/dev/null
+docker compose up -d &>/dev/null
+success
+
+[ ! -f "${SELF_HOSTED_DIR}/glance" ] \
+  && info "Installing Glance..." \
+  || info "Glance already installed. Updating..."
+cd "${SELF_HOSTED_DIR}/glance"
+curl -sL "${GLANCE_URL}" | tar -xzf - --strip-components 2 &>/dev/null
+docker compose up -d &>/dev/null
+success
+
+PINOKIO_URL='https://github.com/pinokiocomputer/pinokio/releases/download/v7.0.0/Pinokio_7.0.0_arm64.deb'
+if ! command -v pinokio &>/dev/null; then
+  info "Installing Pinokio..."
+  wget -q "${PINOKIO_URL}" -O /tmp/Pinokio_7.0.0_arm64.deb
+  sudo apt-get install -y /tmp/Pinokio_7.0.0_arm64.deb &>/dev/null
+  rm -f /tmp/Pinokio_7.0.0_arm64.deb
+  success
+else
+  info "Pinokio already installed. Skipping."
   success
 fi
 
-if [ ! -f "${SELF_HOSTED_DIR}/paperless-ngx/docker-compose.yml" ]; then
-  info "Fetching Paperless-ngx docker-compose example..."
-  export PAPERLESS_NGX_URL='https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/docker/compose/'
-  cd "${SELF_HOSTED_DIR}/paperless-ngx"
-  wget -q "${PAPERLESS_NGX_URL}/docker-compose.postgres.yml" -O "docker-compose.yml"
-  wget -q "${PAPERLESS_NGX_URL}/.env" -O "docker-compose.env"
-  docker compose pull
-  docker compose up -d
-else
-  info "Paperless-ngx already installed. Updating..."
-  cd "${SELF_HOSTED_DIR}/paperless-ngx"
-  docker compose pull
-  docker compose up -d
-fi
-
-if [ ! -f "${SELF_HOSTED_DIR}/glance/docker-compose.yml" ]; then
-  info "Installing Glance..."
-else
-  info "Updating Glance..."
-fi
-cd "${SELF_HOSTED_DIR}/glance"
-curl -sL https://github.com/glanceapp/docker-compose-template/archive/refs/heads/main.tar.gz | tar -xzf - --strip-components 2
-docker compose up -d
-
-success
 {{ end }}

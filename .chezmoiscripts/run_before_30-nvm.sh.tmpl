@@ -1,17 +1,17 @@
 #!/bin/bash
 
 {{ if and .isLinux .isFull }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
-export NVM_DIR="$HOME/.nvm"
+source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
+export NVM_DIR="${HOME}/.nvm"
 
-[ ! -d "$NVM_DIR" ] \
+[ ! -d "${NVM_DIR}" ] \
   && info "Installing NVM (Node Version Manager)..." \
   || info "Updating NVM (Node Version Manager)..."
 
 curl -so- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash &>/dev/null
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-nvm install --lts
-
+[ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh" &>/dev/null
+nvm install --lts &>/dev/null
 success
+
 {{ end }}

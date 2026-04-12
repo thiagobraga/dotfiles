@@ -1,7 +1,8 @@
 #!/bin/bash
 
 {{ if .isUbuntu }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
+
+source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
 info "Installing essential apt packages..."
 sudo apt-get install -y \
@@ -28,4 +29,5 @@ sudo apt-get install -y \
   zstd \
   &>/dev/null
 success
+
 {{ end }}

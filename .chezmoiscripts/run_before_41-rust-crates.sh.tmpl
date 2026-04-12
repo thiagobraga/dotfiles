@@ -1,9 +1,8 @@
 #!/bin/bash
 
 {{ if and .isLinux .isFull }}
-source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"
 
-# Ensure cargo is available
+source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 export PATH="$HOME/.cargo/bin:$PATH"
 
 if ! command -v cargo &>/dev/null; then
@@ -17,12 +16,12 @@ sudo apt-get install -y \
   pkg-config \
   &>/dev/null
 success
-info "Installing Rust crates..."
+
 # Install claurst (Claude Code in Rust)
-success
 info "Installing claurst..."
 cargo install \
   --git https://github.com/Kuberwastaken/claurst \
   --locked &>/dev/null
 success
+
 {{ end }}

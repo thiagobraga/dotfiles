@@ -23,7 +23,7 @@ Welcome! This file provides instructions for AI agents (Cursor, Claude, Gemini, 
 ### Automation Scripts (`.chezmoiscripts/`)
 - All "run_before" scripts use the custom logging system in `.helpers/utils.sh`.
 - When adding or modifying scripts, **ALWAYS** source the utilities:
-  `source "{{ .chezmoi.sourceDir }}/.helpers/utils.sh"`
+  `source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'`
 - Use these logging functions for all terminal output:
   - `info "Message"` (Blue)
   - `success "Message"` (Green)
