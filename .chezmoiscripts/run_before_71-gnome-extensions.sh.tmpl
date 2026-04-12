@@ -11,17 +11,18 @@ success
 
 info "Installing Dash to Panel extension..."
 gnome-extensions-cli install dash-to-panel@jderose9.github.com &>/dev/null
-gnome-extensions enable dash-to-panel@jderose9.github.com &>/dev/null
+gnome-extensions enable dash-to-panel@jderose9.github.com &>/dev/null || true
+dconf load /org/gnome/shell/extensions/dash-to-panel/ < '{{ .chezmoi.sourceDir }}/.helpers/extensions/dash-to-panel/config.ini' &>/dev/null || true
 success
 
 info "Installing Date Menu Formatter extension..."
 gnome-extensions-cli install date-menu-formatter@marcinjakubowski.github.com &>/dev/null
-gnome-extensions enable date-menu-formatter@marcinjakubowski.github.com &>/dev/null
+gnome-extensions enable date-menu-formatter@marcinjakubowski.github.com &>/dev/null || true
 success
 
-info "Installing Middle Click to Close in Overview extension..."
-gnome-extensions-cli install middle-click-to-close-in-overview@fmuellner.github.io &>/dev/null
-gnome-extensions enable middle-click-to-close-in-overview@fmuellner.github.io &>/dev/null
+info "Installing Quick Close in Overview extension..."
+gnome-extensions-cli install middleclickclose@paolo.tranquilli.gmail.com &>/dev/null
+gnome-extensions enable middleclickclose@paolo.tranquilli.gmail.com &>/dev/null || true
 success
 
 {{- end }}
