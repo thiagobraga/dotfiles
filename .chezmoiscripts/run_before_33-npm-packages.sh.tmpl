@@ -9,10 +9,7 @@ export NVM_DIR="${HOME}/.nvm"
 [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh" &>/dev/null
 
 for pkg in \
-  @anthropic-ai/claude-code \
   @openai/codex \
-  browser-sync \
-  openclaw \
   opencode-ai \
   yarn; do
   npm i -g "$pkg" &>/dev/null
