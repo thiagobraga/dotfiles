@@ -43,6 +43,14 @@
 {{-   $isFull = promptBoolOnce . "isFull" "Install full developer environment (nvm, docker, self-hosting) true/false?" false -}}
 {{- end -}}
 
+{{/* Detect if we should disable AI-related and self-hosting scripts */}}
+{{- $isDisabled := false -}}
+{{- if hasKey . "isDisabled" -}}
+{{-   $isDisabled = .isDisabled -}}
+{{- else if env "CHEZMOI_DISABLED" -}}
+{{-   $isDisabled = eq (env "CHEZMOI_DISABLED") "true" -}}
+{{- end -}}
+
 sourceDir = "/home/{{ .chezmoi.username }}/projects/dotfiles"
 
 [data]
@@ -54,6 +62,7 @@ sourceDir = "/home/{{ .chezmoi.username }}/projects/dotfiles"
   isServer = {{ $isServer }}
   isFull = {{ $isFull }}
   hasAVX = {{ $hasAVX }}
+  isDisabled = {{ $isDisabled }}
 
 [edit]
   apply = true

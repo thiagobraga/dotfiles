@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{- if and .isLinux .isFull }}
+{{- if and .isLinux .isFull (not .isDisabled) }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
