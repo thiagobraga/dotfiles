@@ -33,14 +33,14 @@
 {{-   $hasAVX = (output "sh" "-c" "grep -q avx /proc/cpuinfo && echo true || echo false" | trim | eq "true") -}}
 {{- end -}}
 
-{{/* Detect if we should install the full environment (nvm, bun, docker, etc.) */}}
+{{/* Detect if we should install the full environment (nvm, docker, self-hosting, etc.) */}}
 {{- $isFull := false -}}
 {{- if hasKey . "isFull" -}}
 {{-   $isFull = .isFull -}}
 {{- else if env "CHEZMOI_FULL" -}}
 {{-   $isFull = eq (env "CHEZMOI_FULL") "true" -}}
 {{- else -}}
-{{-   $isFull = promptBoolOnce . "isFull" "Install full developer environment (nvm, bun, docker, self-hosting) true/false?" false -}}
+{{-   $isFull = promptBoolOnce . "isFull" "Install full developer environment (nvm, docker, self-hosting) true/false?" false -}}
 {{- end -}}
 
 sourceDir = "/home/{{ .chezmoi.username }}/projects/dotfiles"

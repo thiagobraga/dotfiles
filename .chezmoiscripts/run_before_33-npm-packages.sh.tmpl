@@ -1,10 +1,10 @@
 #!/bin/bash
 
-{{- if and .isLinux .isFull (not .hasAVX) }}
+{{- if and .isLinux .isFull }}
 
 source '{{ .chezmoi.sourceDir }}/.helpers/utils.sh'
 
-info "Installing npm global packages (fallback for non-AVX hardware)..."
+info "Installing npm global packages..."
 export NVM_DIR="${HOME}/.nvm"
 [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh" &>/dev/null
 
