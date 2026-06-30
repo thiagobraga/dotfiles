@@ -17,11 +17,4 @@ sudo apt-get install -y \
   &>/dev/null
 success
 
-# Install claurst (Claude Code in Rust)
-info "Installing claurst..."
-cargo install \
-  --git https://github.com/Kuberwastaken/claurst \
-  --locked &>/dev/null
-success
-
 {{- end }}
