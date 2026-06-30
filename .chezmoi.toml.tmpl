@@ -43,8 +43,8 @@
 {{-   $isFull = promptBoolOnce . "isFull" "Install full developer environment (nvm, docker, self-hosting) true/false?" false -}}
 {{- end -}}
 
-{{/* Detect if we should disable AI-related and self-hosting scripts */}}
-{{- $isDisabled := false -}}
+{{/* Detect if we should disable AI-related and self-hosting scripts (disabled by default) */}}
+{{- $isDisabled := true -}}
 {{- if hasKey . "isDisabled" -}}
 {{-   $isDisabled = .isDisabled -}}
 {{- else if env "CHEZMOI_DISABLED" -}}
