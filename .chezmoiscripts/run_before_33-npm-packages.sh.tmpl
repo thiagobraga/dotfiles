@@ -8,15 +8,16 @@ info "Installing npm global packages..."
 export NVM_DIR="${HOME}/.nvm"
 [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh" &>/dev/null
 
-npm i -g \
+for pkg in \
   @anthropic-ai/claude-code \
   @openai/codex \
   browser-sync \
   n8n \
   openclaw \
   opencode-ai \
-  yarn \
-  &>/dev/null
+  yarn; do
+  npm i -g "$pkg" &>/dev/null
+done
 success
 
 info "Installing Antigravity Awesome Skills..."
